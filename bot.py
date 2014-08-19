@@ -9,7 +9,6 @@ import urllib
 import urllib2
 import json
 import time
-import os
 
 ##Change these!
 server = "" ##IRC Server - example: irc.freenode.net for Freenode
@@ -55,10 +54,6 @@ for channel in channels:
     irc.send("JOIN "+ channel +"\n")
 
 #functions
-
-def restart_program():
-    python = sys.executable
-    os.execl(python, python, * sys.argv)
 
 def privmsg(to, message):
     return irc.send("PRIVMSG "+to+" :"+message+"\r\n")
@@ -194,8 +189,6 @@ while 1:                                                                        
                     privmsg(sender, prefix+'unignore: Removes a person from the global ignorelist.')
                     privmsg(sender, prefix+'unignore: Syntax: '+prefix+'unignore <name>')
                     privmsg(sender, prefix+'unignore: Example: '+prefix+'unignore Pystormer')
-                elif cmd == "restart":
-                    privmsg(sender, prefix+'restart: Restarts the bot.')
                 elif cmd == "ignorelist":
                     privmsg(sender, prefix+'ignorelist: Displays global ignorelist.')
                 elif cmd == "adminlist":
@@ -257,7 +250,6 @@ while 1:                                                                        
                         cmds.append(prefix+'raw')
                         cmds.append(prefix+'eval')
                         cmds.append(prefix+'add_admin')
-                        cmds.append(prefix+'restart')
                     if sender in admins:
                         cmds.append(prefix+'remove_admin')
                         cmds.append(prefix+'ignore')
@@ -689,17 +681,6 @@ while 1:                                                                        
                     notice(sender, 'You are not authorised to perform this command.')
             except Exception:
                 pass
-
-    if text.find(':'+prefix+'restart') != -1:
-        if sender in ignored:
-            pass
-        else:
-            if sender == owner:
-                privmsg(sendto, 'Rebooting...')
-                irc.send('QUIT\n')
-                restart_program()
-            else:
-                notice(sender, 'You are not authorised to perform this command.')
 
     if text.find(':'+prefix+'topic') != -1:
         if sender in ignored:
