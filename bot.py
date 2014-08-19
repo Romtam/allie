@@ -49,7 +49,7 @@ cmd_lastfm = True
 irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print "Connecting to:", server
 irc.connect((server, 6667))
-irc.send("USER "+ botnick +" "+ botnick +" "+ botnick +" :"+ botnick +"\n")
+irc.send("USER "+ botnick +" "+ botnick +" "+ botnick +" :https://github.com/Snowstormer/allie\n")
 irc.send("NICK "+ botnick +"\n")
 irc.send("PRIVMSG NICKSERV :IDENTIFY "+botnick+" "+password+"\r\n") 
 for channel in channels:
@@ -94,7 +94,7 @@ while 1:                                                                        
 
     if text.find('PING') != -1:                                                     #check if 'PING' is found
         try:
-            irc.send('PONG \r\n')                                                       #returns 'PONG' back to the server (prevents pinging out!)
+            irc.send('PONG \r\n')                                                   #returns 'PONG' back to the server (prevents pinging out!)
         except Exception:
             pass
 
