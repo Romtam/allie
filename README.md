@@ -1,9 +1,7 @@
 allie
 =========
 
-allie is an IRC bot written in Python.
-
-Has a variety of commands from as simple as "say" to as complex as "weather".
+allie is an IRC bot written in Python from scratch. Has a variety of commands from as simple as "say" to as complex as "weather". Can manage multiple channels at one time.
 
 Requires Python 2.7! Will not work with 3.X!
 
