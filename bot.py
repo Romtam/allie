@@ -13,7 +13,7 @@ import os
 
 ##Change these!
 server = "" ##IRC Server - example: irc.freenode.net for Freenode
-botnick = "Bot-Pystormer" ##Bot's nick (DO NOT PUT PYSTORMER!)
+botnick = "PyAllie" ##Bot's nick (DO NOT PUT PYSTORMER!)
 password = "replaceme" ##Bot's NickServ password
 owner = "Your name" ##Bot's owner's name
 admins = ["Your name"] ##List of bot administrators (Must put owner here as well)
