@@ -98,7 +98,7 @@ while 1:                                                                        
             irc.send('PONG \r\n')                                                   #returns 'PONG' back to the server (prevents pinging out!)
         except Exception:
             pass
-    elif irchat.find("VERSION") != -1:
+    elif text.find("VERSION") != -1:
         irc.send("NOTICE "+sender+" :VERSION allie - The Python IRC Bot @ https://github.com/Snowstormer/allie / Running on "+platform.system()+" "+platform.release()+"\r\n")
 
 ##Help
