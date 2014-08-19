@@ -13,13 +13,13 @@ import os
 
 ##Change these!
 server = "" ##IRC Server - example: irc.freenode.net for Freenode
-botnick = "PyAllie" ##Bot's nick
-password = "replaceme" ##Bot's NickServ password
-owner = "Your name" ##Bot's owner's name
-admins = ["Your name"] ##List of bot administrators (Must put owner here as well)
-ignored = [] ##List of ignored people
-prefix = "!" ##Bot's command prefix
-channels = ["#python"] ##Channels to join
+botnick = "PyAllie" ##Bot's nick - example: PyAllie
+password = "replaceme" ##Bot's NickServ password - example: replaceme
+owner = "Your name" ##Bot's owner's name - example: myname
+admins = ["Your name"] ##List of bot administrators (Must put owner here as well) - example: ["myname", "yourname"]
+ignored = [] ##List of ignored people - Add people here if you wish.
+prefix = "!" ##Bot's command prefix - example: !
+channels = ["#python"] ##Channels to join - example: ["#python", "#freenode"]
 
 #command config
 
