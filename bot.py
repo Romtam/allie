@@ -10,17 +10,16 @@ import urllib2
 import json
 import time
 import os
-import xml
 
 ##Change these!
 server = "" ##IRC Server - example: irc.freenode.net for Freenode
-botnick = "" ##Bot's nick
-password = "" ##Bot's NickServ password
-owner = "" ##Bot's owner's name
-admins = [] ##List of bot administrators
+botnick = "Bot-Pystormer" ##Bot's nick (DO NOT PUT PYSTORMER!)
+password = "replaceme" ##Bot's NickServ password
+owner = "Your name" ##Bot's owner's name
+admins = ["Your name"] ##List of bot administrators (Must put owner here as well)
 ignored = [] ##List of ignored people
-prefix = "" ##Bot's command prefix
-channels = [] ##Channels to join
+prefix = "!" ##Bot's command prefix
+channels = ["#python"] ##Channels to join
 
 #command config
 
