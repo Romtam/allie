@@ -45,14 +45,14 @@ cmd_lastfm = True
 ##--------------------------------------------------------##
 
 #connect
-irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)                             #defines the socket
-print "connecting to:" +server
-irc.connect((server, 6667))                                                         #connects to the server
-irc.send("USER "+ botnick +" "+ botnick +" "+ botnick +" :"+ botnick +"\n")         #user authentication
-irc.send("NICK "+ botnick +"\n")                                                    #sets nick
-irc.send("PRIVMSG NICKSERV :IDENTIFY "+botnick+" "+password+"\r\n")                 #remove comment if bot registered
+irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+print "Connecting to:", server
+irc.connect((server, 6667))
+irc.send("USER "+ botnick +" "+ botnick +" "+ botnick +" :"+ botnick +"\n")
+irc.send("NICK "+ botnick +"\n")
+irc.send("PRIVMSG NICKSERV :IDENTIFY "+botnick+" "+password+"\r\n") 
 for channel in channels:
-    irc.send("JOIN "+ channel +"\n")                                                    #join the channels
+    irc.send("JOIN "+ channel +"\n")
 
 #functions
 
