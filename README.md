@@ -1,7 +1,7 @@
-Pystormer
+allie
 =========
 
-Pystormer is an IRC bot written in Python.
+allie is an IRC bot written in Python.
 
 Has a variety of commands from as simple as "say" to as complex as "weather".
 
