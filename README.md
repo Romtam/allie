@@ -10,5 +10,7 @@ Requires Python 2.7! Will not work with 3.X!
 Only uses native Python libraries.
 
 To run - edit the bot.py file's config and then run it.
+
+APIs
 ---------
 Uses the YouTube API, the Last.fm API and the OpenWeather API.
