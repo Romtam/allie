@@ -7,7 +7,7 @@ Requires Python 2.7! Will not work with 3.X!
 
 Only uses native Python libraries.
 
-To run - edit the bot.py file's config and then run it.
+See the wiki for help on setting up.
 
 APIs
 ---------
