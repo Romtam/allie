@@ -9,6 +9,7 @@ import urllib
 import urllib2
 import json
 import time
+import platform
 
 ##Change these!
 server = ""                                                     ##IRC Server - example: "irc.freenode.net" for Freenode
@@ -97,6 +98,8 @@ while 1:                                                                        
             irc.send('PONG \r\n')                                                   #returns 'PONG' back to the server (prevents pinging out!)
         except Exception:
             pass
+    elif irchat.find("VERSION") != -1:
+        irc.send("NOTICE "+sender+" :VERSION allie - The Python IRC Bot @ https://github.com/Snowstormer/allie / Running on "+platform.system()+" "+platform.release()+"\r\n")
 
 ##Help
     if text.find(':'+prefix+'help') != -1:
