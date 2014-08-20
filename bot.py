@@ -99,7 +99,7 @@ while 1:                                                                        
         except Exception:
             pass
     elif text.find("VERSION") != -1:
-        irc.send("NOTICE "+sender+" :VERSION allie - The Python IRC Bot @ https://github.com/Snowstormer/allie / Running on "+platform.system()+" "+platform.release()+"\r\n")
+        irc.send("NOTICE "+sender+" :VERSION "+botnick+", based on allie - The Python IRC Bot @ https://github.com/Snowstormer/allie / Running on "+platform.system()+" "+platform.release()+"\r\n")
 
 ##Help
     if text.find(':'+prefix+'help') != -1:
