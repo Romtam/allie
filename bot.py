@@ -54,11 +54,11 @@ else:
     password = raw_input(">")
     print "Enter owner name below: (Owner name example: myname)"
     owner = raw_input(">")
-    print "Enter additional administrators below: (Administrators example: myname yourname) - DO NOT PUT COMMAS!"
+    print "Enter additional administrators below (separated with spaces): (Administrators example: myname yourname)"
     admins = raw_input(">")
     print "Enter bot prefix below: (Prefix example: !)"
     prefix = raw_input(">")
-    print "Enter channels to join below: (Channels example: #python #freenode) - DO NOT PUT COMMAS!"
+    print "Enter channels to join below (separated with spaces): (Channels example: #python #freenode)"
     channels = raw_input(">")
     ##write values
     config = open('config.json', 'w')
