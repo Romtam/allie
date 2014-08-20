@@ -47,30 +47,67 @@ if os.path.isfile("config.json"):
     prefix = prefix.encode('utf8')
     channels = conf['channels']
     channels = channels.encode('utf8')
+    ignored = conf['ignored']
+    ignored = ignored.encode('utf8')
 
-    admins = admins.split(" ")
     channels = channels.split(" ")
+    owner = owner.split(" ")
+    if ignored != "":
+        ignored = ignored.split(" ")
+    else:
+        ignored = []
+    if admins != "":
+        admins = admins.split(" ")
+    else:
+        admins = []
 else:
-    print "Enter server below: (Server example: irc.freenode.net)"
+    print "Enter server below:"
+    print "Server example: irc.freenode.net"
     server = raw_input(">")
-    print "Enter bot nick below: (Bot nick example: PyAllie)"
+    while len(server) == 0:
+        print "Server cannot be empty!"
+        server = raw_input(">")
+    print "Enter bot nick below:"
+    print "Bot nick example: PyAllie"
     botnick = raw_input(">")
-    print "Enter NickServ password below: (NickServ password example: replaceme)"
+    while len(botnick) == 0:
+        print "Bot nick cannot be empty!"
+        botnick = raw_input(">")
+    print "Enter NickServ password below:"
+    print "NickServ password example: mypass"
+    print "Leave blank if no password."
     password = raw_input(">")
-    print "Enter owner name below: (Owner name example: myname)"
+    print "Enter the hostmasks/nicknames of owners below:"
+    print "Owners example: my/hostmask Nick"
+    print "Make sure you separate all names with spaces!"
+    print "If you are unsure about the hostmask, please refer to the setting up guide in the wiki!"
     owner = raw_input(">")
-    print "Enter additional administrators below (separated with spaces): (Administrators example: myname yourname)"
+    while len(owner) == 0:
+        print "Owners cannot be empty!"
+        owner = raw_input(">")
+    print "Enter administrators below:"
+    print "Owners example: my/hostmask Nick"
+    print "Make sure you separate all names with spaces!"
+    print "If you are unsure about the hostmask, please refer to the setting up guide in the wiki!"
     admins = raw_input(">")
-    print "Enter bot prefix below: (Prefix example: !)"
+    print "Enter bot prefix below:"
+    print "Prefix example: !"
     prefix = raw_input(">")
-    print "Enter channels to join below (separated with spaces): (Channels example: #python #freenode)"
+    while len(prefix) == 0:
+        print "Prefix cannot be empty!"
+        prefix = raw_input(">")
+    print "Enter channels to join below:"
+    print "Channels example: ##allie #python"
+    print "Make sure you separate all channels with spaces!"
     channels = raw_input(">")
+    while len(prefix) == 0:
+        print "You must specify at least 1 channel!"
+        channels = raw_input(">")
     ##write values
     config = open('config.json', 'w')
-    config.write(json.dumps({"server":server,"botnick":botnick,"password":password,"owner":owner,"admins":admins,"prefix":prefix,"channels":channels}))
+    config.write(json.dumps({"server":server,"botnick":botnick,"password":password,"owner":owner,"admins":admins,"prefix":prefix,"channels":channels,"ignored":" "}))
+    config.close()
     restart_program()
-
-ignored = []
 
 """Command config.
 Change "True" to "False" to disable a command. Can also be disabled/enabled later while bot is online.
@@ -124,6 +161,13 @@ while 1:                                                                        
         sendchannel = sendchan[2]
     except Exception:
         pass
+    hostmask = text.split(" ")
+    hostmask = hostmask[0]
+    hostmask = hostmask.split("@")
+    try:
+        hostmask = hostmask[1]
+    except Exception:
+        pass
     ##Find where command is sent
     sendto = '' # can be a user's nick(from query) or a channel
 
@@ -132,11 +176,9 @@ while 1:                                                                        
     else:
         sendto = sendchannel
 
-    if text.find('PING') != -1:                                                     #check if 'PING' is found
-        try:
-            irc.send('PONG \r\n')                                                   #returns 'PONG' back to the server (prevents pinging out!)
-        except Exception:
-            pass
+    if text.find('PING') != -1:
+        irc.send('PONG \r\n')
+        
     elif text.find("VERSION") != -1:
         irc.send("NOTICE "+sender+" :VERSION "+botnick+", based on allie - The Python IRC Bot @ https://github.com/Snowstormer/allie / Running on "+platform.system()+" "+platform.release()+"\r\n")
 
@@ -207,43 +249,35 @@ while 1:                                                                        
                 elif cmd == "nick":
                     privmsg(sender, prefix+'nick: Changes the bots nick.')
                     privmsg(sender, prefix+'nick: Syntax: '+prefix+'nick <name>')
-                    privmsg(sender, prefix+'nick: Example: '+prefix+'nick Pystormer')
+                    privmsg(sender, prefix+'nick: Example: '+prefix+'nick allie')
                 elif cmd == "join":
                     privmsg(sender, prefix+'join: Joins a channel.')
                     privmsg(sender, prefix+'join: Syntax: '+prefix+'join <channel>')
-                    privmsg(sender, prefix+'join: Example: '+prefix+'join #channel')
+                    privmsg(sender, prefix+'join: Example: '+prefix+'join ##allie')
                 elif cmd == "part":
                     privmsg(sender, prefix+'part: Parts a channel.')
                     privmsg(sender, prefix+'part: Syntax: '+prefix+'part <channel>')
-                    privmsg(sender, prefix+'part: Example: '+prefix+'part #channel')
+                    privmsg(sender, prefix+'part: Example: '+prefix+'part ##allie')
                 elif cmd == "raw":
                     privmsg(sender, prefix+'raw: Sends a raw message.')
                     privmsg(sender, prefix+'raw: Syntax: '+prefix+'raw <string>')
-                    privmsg(sender, prefix+'raw: Example: '+prefix+'raw PRIVMSG #channel :I am cool!')
+                    privmsg(sender, prefix+'raw: Example: '+prefix+'raw PRIVMSG ##allie :I am cool!')
                 elif cmd == "eval":
                     privmsg(sender, prefix+'eval: Executes a raw Python string.')
                     privmsg(sender, prefix+'eval: Syntax: '+prefix+'eval <Python string>')
                     privmsg(sender, prefix+'eval: Example: '+prefix+'eval print "hi"')
                 elif cmd == "add_admin":
-                    privmsg(sender, prefix+'add_admin: Adds a person to the global adminlist.')
-                    privmsg(sender, prefix+'add_admin: Syntax: '+prefix+'add_admin <name>')
-                    privmsg(sender, prefix+'add_admin: Example: '+prefix+'add_admin Pystormer')
+                    privmsg(sender, prefix+'promote: Promotes a person to a specified right list.')
+                    privmsg(sender, prefix+'promote: Syntax: '+prefix+'promote <right> <name>')
+                    privmsg(sender, prefix+'promote: Example: '+prefix+'promote admin allie')
                 elif cmd == "remove_admin":
-                    privmsg(sender, prefix+'remove_admin: Removes a person from the global adminlist.')
-                    privmsg(sender, prefix+'remove_admin: Syntax: '+prefix+'remove_admin <name>')
-                    privmsg(sender, prefix+'remove_admin: Example: '+prefix+'remove_admin Pystormer')
-                elif cmd == "ignore":
-                    privmsg(sender, prefix+'ignore: Adds a person to the global ignorelist.')
-                    privmsg(sender, prefix+'ignore: Syntax: '+prefix+'ignore <name>')
-                    privmsg(sender, prefix+'ignore: Example: '+prefix+'ignore Pystormer')
-                elif cmd == "remove_admin":
-                    privmsg(sender, prefix+'unignore: Removes a person from the global ignorelist.')
-                    privmsg(sender, prefix+'unignore: Syntax: '+prefix+'unignore <name>')
-                    privmsg(sender, prefix+'unignore: Example: '+prefix+'unignore Pystormer')
-                elif cmd == "ignorelist":
-                    privmsg(sender, prefix+'ignorelist: Displays global ignorelist.')
-                elif cmd == "adminlist":
-                    privmsg(sender, prefix+'ignorelist: Displays global adminlist.')
+                    privmsg(sender, prefix+'demote: Demotes a person from a specified right list.')
+                    privmsg(sender, prefix+'demote: Syntax: '+prefix+'demote <right> <name>')
+                    privmsg(sender, prefix+'demote: Example: '+prefix+'demote admin allie-hator')
+                elif cmd == "rights":
+                    privmsg(sender, prefix+'rights: Displays the specified right list. Available rights: owner, admin, ignored.')
+                    privmsg(sender, prefix+'rights: Syntax: '+prefix+'unignore <right>')
+                    privmsg(sender, prefix+'rights: Example: '+prefix+'unignore owner')
                 elif cmd == "topic":
                     privmsg(sender, prefix+'topic: Modifies the topic.')
                     privmsg(sender, prefix+'topic: Syntax: '+prefix+'topic <command>')
@@ -298,7 +332,7 @@ while 1:                                                                        
                         cmds.append(prefix+'github')
                     cmds.append(prefix+'adminlist')
                     cmds.append(prefix+'ignorelist')
-                    if sender == owner:
+                    if hostmask in owner or sender in owner:
                         cmds.append(prefix+'join')
                         cmds.append(prefix+'part')
                         cmds.append(prefix+'quit')
@@ -306,7 +340,7 @@ while 1:                                                                        
                         cmds.append(prefix+'raw')
                         cmds.append(prefix+'eval')
                         cmds.append(prefix+'add_admin')
-                    if sender in admins:
+                    if sender in admins or hostmask in admins:
                         cmds.append(prefix+'remove_admin')
                         cmds.append(prefix+'ignore')
                         cmds.append(prefix+'unignore')
@@ -349,7 +383,7 @@ while 1:                                                                        
             if sender in ignored:
                 pass
             else:
-                w1 = ["Angela Merkel", "Vladimir Putin", "Ke$ha", "Justin Bieber", "Rebecca Black", "Violetta", "I", "You", "He", "She", "They", "We", "The girls", "The boys", "Students", "Teachers", "The teacher"]
+                w1 = ["Justin Timberlake", "Angela Merkel", "Vladimir Putin", "Ke$ha", "Justin Bieber", "Rebecca Black", "Violetta", "I", "You", "He", "She", "They", "We", "The girls", "The boys", "Students", "Teachers", "The teacher"]
                 w2 = ["farted", "danced", "flew", "turned into an octopus", "sang 'My Slowianie'", "became a narwhal", "bounced on a trampoline", "took a shower", "pooped", "was sick", "read"]
                 w3 = ["while", "after", "before"]
                 w4 = ["the school", "Russia", "the hospital", "a toilet", "a house", "everyone", "I", "he", "she", "we", "they", "you", "a person", "elephants"]
@@ -405,8 +439,14 @@ while 1:                                                                        
                             title = jsonvid['entry']['title']['$t']
                             author = jsonvid['entry']['author'][0]['name']['$t']
                             viewcount = jsonvid['entry']['yt$statistics']['viewCount']
-                            likes = jsonvid['entry']['yt$rating']['numLikes']
-                            dislikes = jsonvid['entry']['yt$rating']['numDislikes']
+                            try:
+                                likes = jsonvid['entry']['yt$rating']['numLikes']
+                            except Exception:
+                                likes = 0
+                            try:
+                                dislikes = jsonvid['entry']['yt$rating']['numDislikes']
+                            except Exception:
+                                dislikes = 0
                             title = title.encode("utf8")
                             author = author.encode("utf8")
                             privmsg(sendto, '\"'+str(title)+'\" by '+str(author)+' | '+str(viewcount)+' views | 03'+str(likes)+' likes | 04'+str(dislikes)+' dislikes | 02http://youtu.be/'+str(videoid)+'')
@@ -430,7 +470,7 @@ while 1:                                                                        
                     if pwn == botnick:
                         privmsg(sendto, 'Error: Cannot pwn self.')
                     else:
-                        if sender in admins:
+                        if hostmask in admins or sender in admins or hostmask in owner or sender in owner:
                             privmsg("ChanServ", 'OP '+sendto)
                             time.sleep(1)
                             privmsg(sendto, '\x01ACTION pwns '+str(pwn)+'\x01')
@@ -448,26 +488,34 @@ while 1:                                                                        
         else:
             pass
 
-    if text.find(':'+prefix+'ignorelist') != -1:
+    if text.find(':'+prefix+'rights') != -1:
         if sender in ignored:
             pass
         else:
             try:
-                if not ignored:
-                    privmsg(sendto, 'Global ignorelist is empty.')
-                else:
-                    privmsg(sendto, 'Global ignorelist: '+str(ignored).translate(None, "[]'")+'.')
+                if text.find(':'+prefix+'rights ignored') != -1:
+                    if not ignored:
+                        privmsg(sendto, 'Global ignorelist is empty.')
+                    elif ignored == "":
+                        privmsg(sendto, 'Global ignorelist is empty.')
+                    else:
+                        privmsg(sendto, 'Global ignorelist: '", ".join(ignored)+'.')
+                elif text.find(':'+prefix+'rights admin') != -1:
+                    if not admins:
+                        privmsg(sendto, 'Global adminlist is empty.')
+                    elif admins == "":
+                        privmsg(sendto, 'Global adminlist is empty.')
+                    else:
+                        privmsg(sendto, 'Global adminlist: '+", ".join(admins)+'.')
+                elif text.find(':'+prefix+'rights owner') != -1:
+                    if not owner:
+                        privmsg(sendto, 'Global ownerlist is empty.')
+                    elif owner == "":
+                        privmsg(sendto, 'Global ownerlist is empty.')
+                    else:
+                        privmsg(sendto, 'Global ownerlist: '+", ".join(owner)+'.')
             except Exception:
                 pass
-
-    if text.find(':'+prefix+'adminlist') != -1:
-        if sender in ignored:
-            pass
-        else:
-            if not admins:
-                privmsg(sendto, 'Global adminlist is empty.')
-            else:
-                privmsg(sendto, 'Global adminlist: '+str(admins).translate(None, "[]'")+'.')
 
     if text.find(':'+prefix+'weather') != -1:
         if cmd_weather == True:
@@ -586,7 +634,7 @@ while 1:                                                                        
         if sender in ignored:
             pass
         else:
-            if sender == owner:
+            if hostmask in owner or sender in owner:
                 quitmsg = ["Critical error.", "Sorry, we're closed.", "Shutting down...", "I don't blame you.", "I don't hate you.", "Goodbye!", "Disconnecting..."]
                 privmsg(sendto, random.choice(quitmsg))
                 irc.send('QUIT\n')
@@ -599,7 +647,7 @@ while 1:                                                                        
             pass
         else:
             try:
-                if sender == owner:
+                if hostmask in owner or sender in owner:
                     t = text.split(':'+prefix+'nick ')
                     nick = t[1].strip()
                     irc.send('NICK '+str(nick)+'\n')
@@ -615,7 +663,7 @@ while 1:                                                                        
             pass
         else:
             try:
-                if sender == owner:
+                if hostmask in owner or sender in owner:
                     t = text.split(':'+prefix+'join ')
                     chan = t[1].strip()
                     if chan.startswith("#"):
@@ -633,7 +681,7 @@ while 1:                                                                        
             pass
         else:
             try:
-                if sender == owner:
+                if hostmask in owner or sender in owner:
                     t = text.split(':'+prefix+'part ')
                     chan = t[1].strip()
                     if chan.startswith("#"):
@@ -650,7 +698,7 @@ while 1:                                                                        
         if sender in ignored:
             pass
         else:
-            if sender == owner:
+            if hostmask in owner or sender in owner:
                 try:
                     t = text.split(':'+prefix+'eval ')
                     evalcmd = t[1].strip()
@@ -666,7 +714,7 @@ while 1:                                                                        
             pass
         else:
             try:
-                if sender == owner:
+                if hostmask in owner or sender in owner:
                     t = text.split(':'+prefix+'raw ')
                     rawcode = t[1].strip()
                     if rawcode == "":
@@ -679,101 +727,89 @@ while 1:                                                                        
             except Exception:
                 pass
 
-    if text.find(':'+prefix+'add_admin') != -1:
+    if text.find(':'+prefix+'promote') != -1:
         if sender in ignored:
             pass
         else:
             try:
-                if sender == owner:
-                    t = text.split(':'+prefix+'add_admin ')
-                    usr = t[1].strip()
-                    if usr == "":
-                        privmsg(sendto, 'Cannot add no one.')
-                    elif usr == botnick:
-                        privmsg(sendto, 'Cannot add self to adminlist.')
-                    else:
-                        if str(usr) in admins:
-                            privmsg(sendto, str(usr)+' already on global adminlist.')
+                if text.find(':'+prefix+'promote ignored') != -1:
+                    if hostmask in owner or sender in owner or hostmask in admins or sender in admins:
+                        t = text.split(':'+prefix+'promote ignored ')
+                        usr = t[1].strip()
+                        if usr == "":
+                            privmsg(sendto, 'Cannot ignore no one.')
+                        elif usr == botnick:
+                            privmsg(sendto, 'Cannot ignore self.')
+                        elif usr in owner:
+                            privmsg(sendto, 'Cannot ignore owner.')
                         else:
-                            admins.append(str(usr))
-                            privmsg(sendto, str(usr)+' added to global adminlist.')
-                else:
-                    notice(sender, 'You are not authorised to perform this command.')
+                            if str(usr) in ignored:
+                                privmsg(sendto, str(usr)+' already on global ignorelist.')
+                            else:
+                                ignored.append(str(usr))
+                                privmsg(sendto, str(usr)+' added to global ignorelist.')
+                    else:
+                        notice(sender, 'You are not authorised to perform this command.')
+                elif text.find(':'+prefix+'promote admin') != -1:
+                    if hostmask in owner or sender in owner:
+                        t = text.split(':'+prefix+'promote admin ')
+                        usr = t[1].strip()
+                        if usr == "":
+                            privmsg(sendto, 'Cannot add no one.')
+                        elif usr == botnick:
+                            privmsg(sendto, 'Cannot add self to adminlist.')
+                        else:
+                            if str(usr) in admins:
+                                privmsg(sendto, str(usr)+' already on global adminlist.')
+                            else:
+                                admins.append(str(usr))
+                                privmsg(sendto, str(usr)+' added to global adminlist.')
+                    else:
+                        notice(sender, 'You are not authorised to perform this command.')
             except Exception:
                 pass
 
-    if text.find(':'+prefix+'remove_admin') != -1:
+    if text.find(':'+prefix+'demote') != -1:
         if sender in ignored:
             pass
         else:
             try:
-                if sender in admins:
-                    t = text.split(':'+prefix+'remove_admin ')
-                    usr = t[1].strip()
-                    if usr == "":
-                        privmsg(sendto, 'Cannot remove no one.')
-                    elif usr == botnick:
-                        privmsg(sendto, 'Cannot remove self from adminlist.')
-                    elif usr == owner:
-                        privmsg(sendto, 'Cannot remove owner from adminlist.')
-                    else:
-                        if str(usr) in admins:
-                            admins.remove(str(usr))
-                            privmsg(sendto, str(usr)+' removed from global adminlist.')
+                if text.find(':'+prefix+'demote ignored') != -1:
+                    if hostmask in owner or sender in owner or hostmask in admins or sender in admins:
+                        t = text.split(':'+prefix+'demote ignored ')
+                        usr = t[1].strip()
+                        if usr == "":
+                            privmsg(sendto, 'Cannot unignore no one.')
+                        elif usr == botnick:
+                            privmsg(sendto, 'Cannot unignore self.')
+                        elif usr == owner:
+                            privmsg(sendto, 'Cannot unignore owner.')
                         else:
-                            privmsg(sendto, str(usr)+' not on global adminlist.')
-                else:
-                    notice(sender, 'You are not authorised to perform this command.')
-            except Exception:
-                pass
-
-    if text.find(':'+prefix+'ignore') != -1:
-        if sender in ignored:
-            pass
-        else:
-            try:
-                if sender in admins:
-                    t = text.split(':'+prefix+'ignore ')
-                    usr = t[1].strip()
-                    if usr == "":
-                        privmsg(sendto, 'Cannot ignore no one.')
-                    elif usr == botnick:
-                        privmsg(sendto, 'Cannot ignore self.')
-                    elif usr == owner:
-                        privmsg(sendto, 'Cannot ignore owner.')
+                            if str(usr) in ignored:
+                                ignored.remove(str(usr))
+                                privmsg(sendto, str(usr)+' removed from global ignorelist.')
+                            else:
+                                privmsg(sendto, str(usr)+' not on global ignorelist.')
                     else:
-                        if str(usr) in ignored:
-                            privmsg(sendto, str(usr)+' already on global ignorelist.')
+                        notice(sender, 'You are not authorised to perform this command.')
+                elif text.find(':'+prefix+'demote admin') != -1:
+                    if hostmask in owner or sender in owner or hostmask in admins or sender in admins:
+                        t = text.split(':'+prefix+'demote admin ')
+                        usr = t[1].strip()
+                        if usr == "":
+                            privmsg(sendto, 'Cannot remove no one.')
+                        elif usr == botnick:
+                            privmsg(sendto, 'Cannot remove self from adminlist.')
+                        elif usr == owner:
+                            privmsg(sendto, 'Cannot remove owner from adminlist.')
                         else:
-                            ignored.append(str(usr))
-                            privmsg(sendto, str(usr)+' added to global ignorelist.')
-                else:
-                    notice(sender, 'You are not authorised to perform this command.')
-            except Exception:
-                pass
-
-    if text.find(':'+prefix+'unignore') != -1:
-        if sender in ignored:
-            pass
-        else:
-            try:
-                if sender in admins:
-                    t = text.split(':'+prefix+'unignore ')
-                    usr = t[1].strip()
-                    if usr == "":
-                        privmsg(sendto, 'Cannot unignore no one.')
-                    elif usr == botnick:
-                        privmsg(sendto, 'Cannot unignore self.')
-                    elif usr == owner:
-                        privmsg(sendto, 'Cannot unignore owner.')
+                            if str(usr) in admins:
+                                admins.remove(str(usr))
+                                privmsg(sendto, str(usr)+' removed from global adminlist.')
+                            else:
+                                privmsg(sendto, str(usr)+' not on global adminlist.')
                     else:
-                        if str(usr) in ignored:
-                            ignored.remove(str(usr))
-                            privmsg(sendto, str(usr)+' removed from global ignorelist.')
-                        else:
-                            privmsg(sendto, str(usr)+' not on global ignorelist.')
-                else:
-                    notice(sender, 'You are not authorised to perform this command.')
+                        notice(sender, 'You are not authorised to perform this command.')
             except Exception:
                 pass
 
@@ -782,7 +818,7 @@ while 1:                                                                        
             pass
         else:
             try:
-                if sender in admins:
+                if hostmask in admins or sender in admins or hostmask in owner or sender in owner:
                     if text.find(':'+prefix+'topic append') != -1:
                         t1 = text.split(':'+prefix+'topic append ')
                         addtopic = t1[1].strip() 
@@ -851,7 +887,7 @@ while 1:                                                                        
             pass
         else:
             try:
-                if sender in admins:
+                if hostmask in admins or sender in admins or hostmask in owner or sender in owner:
                     if text.find(':'+prefix+'enable say') != -1:
                         if cmd_say == True:
                             privmsg(sendto, prefix+'say is already enabled.')
@@ -919,7 +955,7 @@ while 1:                                                                        
             pass
         else:
             try:
-                if sender in admins:
+                if hostmask in admins or sender in admins or hostmask in owner or sender in owner:
                     if text.find(':'+prefix+'disable say') != -1:
                         if cmd_say == False:
                             privmsg(sendto, prefix+'say is already disabled.')
