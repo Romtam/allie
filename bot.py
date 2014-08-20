@@ -43,8 +43,6 @@ if os.path.isfile("config.json"):
 
     admins = admins.split(" ")
     channels = channels.split(" ")
-
-    print server, botnick, password, owner, admins, prefix, channels
 else:
     print "Enter server below: (Server example: irc.freenode.net)"
     server = raw_input(">")
