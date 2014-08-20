@@ -34,12 +34,19 @@ if os.path.isfile("config.json"):
     config = open('config.json', 'r')
     conf = json.load(config)
     server = conf['server']
+    server = server.encode('utf8')
     botnick = conf['botnick']
+    botnick = botnick.encode('utf8')
     password = conf['password']
+    password = password.encode('utf8')
     owner = conf['owner']
+    owner = owner.encode('utf8')
     admins = conf['admins']
+    admins = admins.encode('utf8')
     prefix = conf['prefix']
+    prefix = prefix.encode('utf8')
     channels = conf['channels']
+    channels = channels.encode('utf8')
 
     admins = admins.split(" ")
     channels = channels.split(" ")
