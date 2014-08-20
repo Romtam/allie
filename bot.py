@@ -41,6 +41,8 @@ global cmd_action
 cmd_action = True
 global cmd_lastfm
 cmd_lastfm = True
+global cmd_github
+cmd_github = True
 
 ##--------------------------------------------------------##
 ##Only edit below this line if you know what you're doing.##
@@ -156,6 +158,13 @@ while 1:                                                                        
                         privmsg(sender, prefix+'coin: Flips a coin.')
                     else:
                         pass
+                elif cmd == "github":
+                    if cmd_github == True:
+                        privmsg(sender, prefix+'github: Shows information of a GitHub user.')
+                        privmsg(sender, prefix+'github: Syntax: '+prefix+'github <username>')
+                        privmsg(sender, prefix+'github: Example: '+prefix+'github MyGitHub')
+                    else:
+                        pass
                 elif cmd == "quit":
                     privmsg(sender, prefix+'quit: Makes the bot quit.')
                 elif cmd == "nick":
@@ -222,9 +231,12 @@ while 1:                                                                        
                     privmsg(sender, prefix+'unignore: Syntax: '+prefix+'disable <command>')
                     privmsg(sender, prefix+'unignore: Example: '+prefix+'disable stupid')
                 elif cmd == "lastfm":
-                    privmsg(sender, prefix+'lastfm: Shows the recent track of a Last.fm user.')
-                    privmsg(sender, prefix+'lastfm: Syntax: '+prefix+'lastfm <username>')
-                    privmsg(sender, prefix+'lastfm: Example: '+prefix+'lastfm MyLastFm')
+                    if cmd_lastfm == True:
+                        privmsg(sender, prefix+'lastfm: Shows the recent track of a Last.fm user.')
+                        privmsg(sender, prefix+'lastfm: Syntax: '+prefix+'lastfm <username>')
+                        privmsg(sender, prefix+'lastfm: Example: '+prefix+'lastfm MyLastFm')
+                    else:
+                        pass
                 else:
                     privmsg(sender, 'Commands available to you:')
                     cmds = []
@@ -245,6 +257,8 @@ while 1:                                                                        
                         cmds.append(prefix+'coin')
                     if cmd_lastfm == True:
                         cmds.append(prefix+'lastfm')
+                    if cmd_github == True:
+                        cmds.append(prefix+'github')
                     cmds.append(prefix+'adminlist')
                     cmds.append(prefix+'ignorelist')
                     if sender == owner:
@@ -437,16 +451,16 @@ while 1:                                                                        
                         clouds = wjson['clouds']['all']
                         if len(name) == 0:
                             if len(country) == 0:
-                                privmsg(sendto, 'The current weather in your desired location is: '+str(cond)+'. Temperature: '+str(temp)+'C. Wind speed: '+str(wind)+' km/h. Cloud coverage: '+str(clouds)+'%.')
+                                privmsg(sendto, 'The current weather in your desired location is: '+str(cond)+'. Temperature: '+str(temp)+'C. Wind speed: '+str(wind)+' km/h. Cloud coverage: '+str(clouds)+'%.')
                             else:
-                                privmsg(sendto, 'The current weather in '+str(country)+' is: '+str(cond)+'. Temperature: '+str(temp)+'C. Wind speed: '+str(wind)+' km/h. Cloud coverage: '+str(clouds)+'%.')
+                                privmsg(sendto, 'The current weather in '+str(country)+' is: '+str(cond)+'. Temperature: '+str(temp)+'C. Wind speed: '+str(wind)+' km/h. Cloud coverage: '+str(clouds)+'%.')
                         elif len(country) == 0:
                             if len(name) == 0:
-                                privmsg(sendto, 'The current weather in your desired location is: '+str(cond)+'. Temperature: '+str(temp)+'C. Wind speed: '+str(wind)+' km/h. Cloud coverage: '+str(clouds)+'%.')
+                                privmsg(sendto, 'The current weather in your desired location is: '+str(cond)+'. Temperature: '+str(temp)+'C. Wind speed: '+str(wind)+' km/h. Cloud coverage: '+str(clouds)+'%.')
                             else:
-                                privmsg(sendto, 'The current weather in '+str(name)+' is: '+str(cond)+'. Temperature: '+str(temp)+'C. Wind speed: '+str(wind)+' km/h. Cloud coverage: '+str(clouds)+'%.')
+                                privmsg(sendto, 'The current weather in '+str(name)+' is: '+str(cond)+'. Temperature: '+str(temp)+'C. Wind speed: '+str(wind)+' km/h. Cloud coverage: '+str(clouds)+'%.')
                         else:
-                            privmsg(sendto, 'The current weather in '+str(name)+', '+str(country)+' is: '+str(cond)+'. Temperature: '+str(temp)+'C. Wind speed: '+str(wind)+' km/h. Cloud coverage: '+str(clouds)+'%.')
+                            privmsg(sendto, 'The current weather in '+str(name)+', '+str(country)+' is: '+str(cond)+'. Temperature: '+str(temp)+'C. Wind speed: '+str(wind)+' km/h. Cloud coverage: '+str(clouds)+'%.')
                     else:
                         privmsg(sendto, 'Insufficent parameters.')
                 except Exception:
@@ -487,10 +501,49 @@ while 1:                                                                        
                         privmsg(sendto, ''+str(lstfmusr)+'\'s last played track is \"'+str(recentsong)+'\" by '+str(recentartist)+'.')
                     else:
                         privmsg(sendto, ''+str(lstfmusr)+'\'s last played track is \"'+str(recentsong)+'\" by '+str(recentartist)+', from the album \"'+str(recentalbum)+'\".')
-                except Exception, e:
-                    print e
+                except Exception:
+                    privmsg(sendto, 'Could not find Last.fm user '+str(lstfmusr)+'.')
                     pass
+        else:
+            pass
 
+    if text.find(':'+prefix+'github') != -1:
+        if cmd_github == True:
+            if sender in ignored:
+                pass
+            else:
+                try:
+                    github = text.split(':'+prefix+'github ')
+                    githubusr = github[1].strip()
+                    githuburl = "https://osrc.dfm.io/"+str(githubusr)+".json"
+                    gitjson = json.load(urllib2.urlopen(githuburl))
+                    gitname = gitjson['name']
+                    gitlanguage = gitjson['usage']['languages'][0]['language']
+                    gitlanguagecount = gitjson['usage']['languages'][0]['count']
+                    gitevent = gitjson['usage']['events'][0]['type']
+                    gitname = gitname.encode('utf8')
+                    if gitevent == "GollumEvent":
+                        privmsg(sendto, ""+str(gitname)+"'s favourite coding language seems to be 04"+str(gitlanguage)+" ("+str(gitlanguagecount)+" contributions). They seem to like doing wiki edits.")
+                    elif gitevent == "PushEvent":
+                        privmsg(sendto, ""+str(gitname)+"'s favourite coding language seems to be 04"+str(gitlanguage)+" ("+str(gitlanguagecount)+" contributions). They seem to like doing pushes.")
+                    elif gitevent == "CreateEvent":
+                        privmsg(sendto, ""+str(gitname)+"'s favourite coding language seems to be 04"+str(gitlanguage)+" ("+str(gitlanguagecount)+" contributions). They seem to like creating new repos or branches.")
+                    elif gitevent == "WatchEvent":
+                        privmsg(sendto, ""+str(gitname)+"'s favourite coding language seems to be 04"+str(gitlanguage)+" ("+str(gitlanguagecount)+" contributions). They seem to like watching.")
+                    elif gitevent == "IssueCommentEvent":
+                        privmsg(sendto, ""+str(gitname)+"'s favourite coding language seems to be 04"+str(gitlanguage)+" ("+str(gitlanguagecount)+" contributions). They seem to like making issue comments.")
+                    elif gitevent == "PullRequestEvent":
+                        privmsg(sendto, ""+str(gitname)+"'s favourite coding language seems to be 04"+str(gitlanguage)+" ("+str(gitlanguagecount)+" contributions). They seem to like doing pull requests.")
+                    elif gitevent == "IssuesEvent":
+                        privmsg(sendto, ""+str(gitname)+"'s favourite coding language seems to be 04"+str(gitlanguage)+" ("+str(gitlanguagecount)+" contributions). They seem to like reporting issues.")
+                    else:
+                        privmsg(sendto, ""+str(gitname)+"'s favourite coding language seems to be 04"+str(gitlanguage)+" ("+str(gitlanguagecount)+" contributions).")
+                except Exception:
+                    privmsg(sendto, 'Could not find GitHub user '+str(githubusr)+'.')
+                    pass
+        else:
+            pass
+                    
 ##Admin commands
     if text.find(':'+prefix+'quit') != -1:
         if sender in ignored:
@@ -810,6 +863,12 @@ while 1:                                                                        
                         else:
                             cmd_lastfm = True
                             privmsg(sendto, prefix+'lastfm is now enabled.')
+                    elif text.find(':'+prefix+'enable github') != -1:
+                        if cmd_github == True:
+                            privmsg(sendto, prefix+'github is already enabled.')
+                        else:
+                            cmd_github = True
+                            privmsg(sendto, prefix+'github is now enabled.')
                     else:
                         notice(sender, 'Insufficent parameters.')
                         pass
@@ -872,6 +931,12 @@ while 1:                                                                        
                         else:
                             cmd_lastfm = False
                             privmsg(sendto, prefix+'lastfm is now disabled.')
+                    elif text.find(':'+prefix+'disable github') != -1:
+                        if cmd_github == False:
+                            privmsg(sendto, prefix+'github is already disabled.')
+                        else:
+                            cmd_github = False
+                            privmsg(sendto, prefix+'github is now disabled.')
                     else:
                         notice(sender, 'Insufficent parameters.')
                         pass
