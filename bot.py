@@ -521,6 +521,7 @@ while 1:                                                                        
                     gitlanguage = gitjson['usage']['languages'][0]['language']
                     gitlanguagecount = gitjson['usage']['languages'][0]['count']
                     gitevent = gitjson['usage']['events'][0]['type']
+                    gitname = gitname.encode('utf8')
                     if gitevent == "GollumEvent":
                         privmsg(sendto, ""+str(gitname)+"'s favourite coding language seems to be 04"+str(gitlanguage)+" ("+str(gitlanguagecount)+" contributions). They seem to like doing wiki edits.")
                     elif gitevent == "PushEvent":
