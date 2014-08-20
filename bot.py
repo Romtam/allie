@@ -10,16 +10,62 @@ import urllib2
 import json
 import time
 import platform
+import os
 
-##Change these!
-server = ""                                                     ##IRC Server - example: "irc.freenode.net" for Freenode
-botnick = "PyAllie"                                             ##Bot's nick - example: "PyAllie"
-password = "replaceme"                                          ##Bot's NickServ password - example: "replaceme"
-owner = "Your name"                                             ##Bot's owner's name - example: "myname"
-admins = ["Your name"]                                          ##List of bot administrators (Must put owner here as well) - example: ["myname", "yourname"]
-ignored = []                                                    ##List of ignored people - Add people here if you wish.
-prefix = "!"                                                    ##Bot's command prefix - example: "!"
-channels = ["#python"]                                          ##Channels to join - example: ["#python", "#freenode"]
+#functions
+
+def restart_program():
+    python = sys.executable
+    os.execl(python, python, * sys.argv)
+
+def privmsg(to, message):
+    return irc.send("PRIVMSG "+to+" :"+message+"\r\n")
+
+def reply(to, message):
+    return irc.send("PRIVMSG "+to+" :"+sender+": "+message+"\r\n")
+
+def notice(to, message):
+    return irc.send("NOTICE "+to+" :"+message+"\r\n")
+
+def done():
+    return irc.send("PRIVMSG "+sendto+" :"+sender+": Done.\r\n")
+
+if os.path.isfile("config.json"):
+    config = open('config.json', 'r')
+    conf = json.load(config)
+    server = conf['server']
+    botnick = conf['botnick']
+    password = conf['password']
+    owner = conf['owner']
+    admins = conf['admins']
+    prefix = conf['prefix']
+    channels = conf['channels']
+
+    admins = admins.split(" ")
+    channels = channels.split(" ")
+
+    print server, botnick, password, owner, admins, prefix, channels
+else:
+    print "Enter server below: (Server example: irc.freenode.net)"
+    server = raw_input(">")
+    print "Enter bot nick below: (Bot nick example: PyAllie)"
+    botnick = raw_input(">")
+    print "Enter NickServ password below: (NickServ password example: replaceme)"
+    password = raw_input(">")
+    print "Enter owner name below: (Owner name example: myname)"
+    owner = raw_input(">")
+    print "Enter additional administrators below: (Administrators example: myname yourname) - DO NOT PUT COMMAS!"
+    admins = raw_input(">")
+    print "Enter bot prefix below: (Prefix example: !)"
+    prefix = raw_input(">")
+    print "Enter channels to join below: (Channels example: #python #freenode) - DO NOT PUT COMMAS!"
+    channels = raw_input(">")
+    ##write values
+    config = open('config.json', 'w')
+    config.write(json.dumps({"server":server,"botnick":botnick,"password":password,"owner":owner,"admins":admins,"prefix":prefix,"channels":channels}))
+    restart_program()
+
+ignored = []
 
 """Command config.
 Change "True" to "False" to disable a command. Can also be disabled/enabled later while bot is online.
@@ -57,20 +103,6 @@ irc.send("NICK "+ botnick +"\n")
 irc.send("PRIVMSG NICKSERV :IDENTIFY "+botnick+" "+password+"\r\n") 
 for channel in channels:
     irc.send("JOIN "+ channel +"\n")
-
-#functions
-
-def privmsg(to, message):
-    return irc.send("PRIVMSG "+to+" :"+message+"\r\n")
-
-def reply(to, message):
-    return irc.send("PRIVMSG "+to+" :"+sender+": "+message+"\r\n")
-
-def notice(to, message):
-    return irc.send("NOTICE "+to+" :"+message+"\r\n")
-
-def done():
-    return irc.send("PRIVMSG "+sendto+" :"+sender+": Done.\r\n")
 
 #body
 readbuffer = ''
