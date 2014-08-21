@@ -180,7 +180,7 @@ while 1:                                                                        
         irc.send('PONG \r\n')
         
     elif text.find("VERSION") != -1:
-        irc.send("NOTICE "+sender+" :VERSION "+botnick+", based on allie - The Python IRC Bot @ https://github.com/Snowstormer/allie / Running on "+platform.system()+" "+platform.release()+"\r\n")
+        irc.send("NOTICE "+sender+" :\x01VERSION "+botnick+", based on allie - The Python IRC Bot @ https://github.com/Snowstormer/allie / Running on "+platform.system()+" "+platform.release()+"\x01\r\n")
 
 ##Help
     if text.find(':'+prefix+'help') != -1:
