@@ -655,9 +655,12 @@ while 1:                                                                        
                 if hostmask in owner or sender in owner:
                     t = text.split(':'+prefix+'nick ')
                     nick = t[1].strip()
-                    irc.send('NICK '+str(nick)+'\n')
-                    botnick = str(nick)
-                    done()
+                    if re.match("^[A-Za-z0-9_-\[]{}^`|]*$", nick):
+                        irc.send('NICK '+str(nick)+'\n')
+                        botnick = str(nick)
+                        done()
+                    else:
+                        notice(sender, 'Invalid nickname.')
                 else:
                     notice(sender, 'You are not authorised to perform this command.')
             except Exception:
@@ -741,34 +744,32 @@ while 1:                                                                        
                     if hostmask in owner or sender in owner or hostmask in admins or sender in admins:
                         t = text.split(':'+prefix+'promote ignored ')
                         usr = t[1].strip()
-                        if usr == "":
-                            privmsg(sendto, 'Cannot ignore no one.')
-                        elif usr == botnick:
-                            privmsg(sendto, 'Cannot ignore self.')
-                        elif usr in owner:
-                            privmsg(sendto, 'Cannot ignore owner.')
-                        else:
-                            if str(usr) in ignored:
-                                privmsg(sendto, str(usr)+' already on global ignorelist.')
+                        if re.match("^[A-Za-z0-9_-\[]{}^`|]*$", usr):
+                            if usr == botnick:
+                                privmsg(sendto, 'Cannot ignore self.')
+                            elif usr in owner:
+                                privmsg(sendto, 'Cannot ignore owner.')
                             else:
-                                ignored.append(str(usr))
-                                privmsg(sendto, str(usr)+' added to global ignorelist.')
+                                if str(usr) in ignored:
+                                    privmsg(sendto, str(usr)+' already on global ignorelist.')
+                                else:
+                                    ignored.append(str(usr))
+                                    privmsg(sendto, str(usr)+' added to global ignorelist.')
                     else:
                         notice(sender, 'You are not authorised to perform this command.')
                 elif text.find(':'+prefix+'promote admin') != -1:
                     if hostmask in owner or sender in owner:
                         t = text.split(':'+prefix+'promote admin ')
                         usr = t[1].strip()
-                        if usr == "":
-                            privmsg(sendto, 'Cannot add no one.')
-                        elif usr == botnick:
-                            privmsg(sendto, 'Cannot add self to adminlist.')
-                        else:
-                            if str(usr) in admins:
-                                privmsg(sendto, str(usr)+' already on global adminlist.')
+                        if re.match("^[A-Za-z0-9_-\[]{}^`|]*$", usr):
+                            if usr == botnick:
+                                privmsg(sendto, 'Cannot add self to adminlist.')
                             else:
-                                admins.append(str(usr))
-                                privmsg(sendto, str(usr)+' added to global adminlist.')
+                                if str(usr) in admins:
+                                    privmsg(sendto, str(usr)+' already on global adminlist.')
+                                else:
+                                    admins.append(str(usr))
+                                    privmsg(sendto, str(usr)+' added to global adminlist.')
                     else:
                         notice(sender, 'You are not authorised to perform this command.')
             except Exception:
@@ -783,32 +784,30 @@ while 1:                                                                        
                     if hostmask in owner or sender in owner or hostmask in admins or sender in admins:
                         t = text.split(':'+prefix+'demote ignored ')
                         usr = t[1].strip()
-                        if usr == "":
-                            privmsg(sendto, 'Cannot unignore no one.')
-                        elif usr == botnick:
-                            privmsg(sendto, 'Cannot unignore self.')
-                        else:
-                            if str(usr) in ignored:
-                                ignored.remove(str(usr))
-                                privmsg(sendto, str(usr)+' removed from global ignorelist.')
+                        if re.match("^[A-Za-z0-9_-\[]{}^`|]*$", usr):
+                            if usr == botnick:
+                                privmsg(sendto, 'Cannot unignore self.')
                             else:
-                                privmsg(sendto, str(usr)+' not on global ignorelist.')
+                                if str(usr) in ignored:
+                                    ignored.remove(str(usr))
+                                    privmsg(sendto, str(usr)+' removed from global ignorelist.')
+                                else:
+                                    privmsg(sendto, str(usr)+' not on global ignorelist.')
                     else:
                         notice(sender, 'You are not authorised to perform this command.')
                 elif text.find(':'+prefix+'demote admin') != -1:
                     if hostmask in owner or sender in owner or hostmask in admins or sender in admins:
                         t = text.split(':'+prefix+'demote admin ')
                         usr = t[1].strip()
-                        if usr == "":
-                            privmsg(sendto, 'Cannot remove no one.')
-                        elif usr == botnick:
-                            privmsg(sendto, 'Cannot remove self from adminlist.')
-                        else:
-                            if str(usr) in admins:
-                                admins.remove(str(usr))
-                                privmsg(sendto, str(usr)+' removed from global adminlist.')
+                        if re.match("^[A-Za-z0-9_-\[]{}^`|]*$", usr):
+                            if usr == botnick:
+                                privmsg(sendto, 'Cannot remove self from adminlist.')
                             else:
-                                privmsg(sendto, str(usr)+' not on global adminlist.')
+                                if str(usr) in admins:
+                                    admins.remove(str(usr))
+                                    privmsg(sendto, str(usr)+' removed from global adminlist.')
+                                else:
+                                    privmsg(sendto, str(usr)+' not on global adminlist.')
                     else:
                         notice(sender, 'You are not authorised to perform this command.')
             except Exception:
