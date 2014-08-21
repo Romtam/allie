@@ -136,10 +136,6 @@ cmd_lastfm = True
 global cmd_github
 cmd_github = True
 
-##--------------------------------------------------------##
-##Only edit below this line if you know what you're doing.##
-##--------------------------------------------------------##
-
 #connect
 irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print "Connecting to:", server
@@ -655,7 +651,7 @@ while 1:                                                                        
                 if hostmask in owner or sender in owner:
                     t = text.split(':'+prefix+'nick ')
                     nick = t[1].strip()
-                    if re.match("^[A-Za-z0-9_-\[]{}^`|]*$", nick):
+                    if re.match("^[A-Za-z0-9_\-\\\[\]\{\}\^\`\|]*$", nick):
                         irc.send('NICK '+str(nick)+'\n')
                         botnick = str(nick)
                         done()
@@ -744,7 +740,7 @@ while 1:                                                                        
                     if hostmask in owner or sender in owner or hostmask in admins or sender in admins:
                         t = text.split(':'+prefix+'promote ignored ')
                         usr = t[1].strip()
-                        if re.match("^[A-Za-z0-9_-\[]{}^`|]*$", usr):
+                        if re.match("^[A-Za-z0-9_\-\\\[\]\{\}\^\`\|]*$", usr):
                             if usr == botnick:
                                 privmsg(sendto, 'Cannot ignore self.')
                             elif usr in owner:
@@ -761,7 +757,7 @@ while 1:                                                                        
                     if hostmask in owner or sender in owner:
                         t = text.split(':'+prefix+'promote admin ')
                         usr = t[1].strip()
-                        if re.match("^[A-Za-z0-9_-\[]{}^`|]*$", usr):
+                        if re.match("^[A-Za-z0-9_\-\\\[\]\{\}\^\`\|]*$", usr):
                             if usr == botnick:
                                 privmsg(sendto, 'Cannot add self to adminlist.')
                             else:
@@ -784,7 +780,7 @@ while 1:                                                                        
                     if hostmask in owner or sender in owner or hostmask in admins or sender in admins:
                         t = text.split(':'+prefix+'demote ignored ')
                         usr = t[1].strip()
-                        if re.match("^[A-Za-z0-9_-\[]{}^`|]*$", usr):
+                        if re.match("^[A-Za-z0-9_\-\\\[\]\{\}\^\`\|]*$", usr):
                             if usr == botnick:
                                 privmsg(sendto, 'Cannot unignore self.')
                             else:
@@ -799,7 +795,7 @@ while 1:                                                                        
                     if hostmask in owner or sender in owner or hostmask in admins or sender in admins:
                         t = text.split(':'+prefix+'demote admin ')
                         usr = t[1].strip()
-                        if re.match("^[A-Za-z0-9_-\[]{}^`|]*$", usr):
+                        if re.match("^[A-Za-z0-9_\-\\\[\]\{\}\^\`\|]*$", usr):
                             if usr == botnick:
                                 privmsg(sendto, 'Cannot remove self from adminlist.')
                             else:
