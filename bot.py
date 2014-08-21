@@ -281,8 +281,8 @@ while 1:                                                                        
                     privmsg(sender, prefix+'demote: Example: '+prefix+'demote admin allie-hator')
                 elif cmd == "rights":
                     privmsg(sender, prefix+'rights: Displays the specified right list. Available rights: owner, admin, ignored.')
-                    privmsg(sender, prefix+'rights: Syntax: '+prefix+'unignore <right>')
-                    privmsg(sender, prefix+'rights: Example: '+prefix+'unignore owner')
+                    privmsg(sender, prefix+'rights: Syntax: '+prefix+'rights <right>')
+                    privmsg(sender, prefix+'rights: Example: '+prefix+'rights owner')
                 elif cmd == "topic":
                     privmsg(sender, prefix+'topic: Modifies the topic.')
                     privmsg(sender, prefix+'topic: Syntax: '+prefix+'topic <command>')
@@ -299,13 +299,13 @@ while 1:                                                                        
                     privmsg(sender, prefix+'topic:           '+prefix+'topic del')
                     privmsg(sender, prefix+'topic:           '+prefix+'topic reset')
                 elif cmd == "enable":
-                    privmsg(sender, prefix+'unignore: Enables a command.')
-                    privmsg(sender, prefix+'unignore: Syntax: '+prefix+'enable <command>')
-                    privmsg(sender, prefix+'unignore: Example: '+prefix+'enable stupid')
+                    privmsg(sender, prefix+'enable: Enables a command.')
+                    privmsg(sender, prefix+'enable: Syntax: '+prefix+'enable <command>')
+                    privmsg(sender, prefix+'enable: Example: '+prefix+'enable stupid')
                 elif cmd == "disable":
-                    privmsg(sender, prefix+'unignore: Disables a command.')
-                    privmsg(sender, prefix+'unignore: Syntax: '+prefix+'disable <command>')
-                    privmsg(sender, prefix+'unignore: Example: '+prefix+'disable stupid')
+                    privmsg(sender, prefix+'disable: Disables a command.')
+                    privmsg(sender, prefix+'disable: Syntax: '+prefix+'disable <command>')
+                    privmsg(sender, prefix+'disable: Example: '+prefix+'disable stupid')
                 elif cmd == "lastfm":
                     if cmd_lastfm == True:
                         privmsg(sender, prefix+'lastfm: Shows the recent track of a Last.fm user.')
@@ -348,8 +348,6 @@ while 1:                                                                        
                         cmds.append(prefix+'promote ignored')
                         cmds.append(prefix+'demote admin')
                         cmds.append(prefix+'demote ignored')
-                        cmds.append(prefix+'ignore')
-                        cmds.append(prefix+'unignore')
                         cmds.append(prefix+'topic')
                         cmds.append(prefix+'enable')
                         cmds.append(prefix+'disable')
