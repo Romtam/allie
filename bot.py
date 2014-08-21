@@ -274,6 +274,13 @@ while 1:                                                                        
                         notice(sender, ''+prefix+'lastfm: Example: '+prefix+'lastfm MyLastFm')
                     else:
                         notice(sender, ''+prefix+'lastfm is currently disabled.')
+                elif cmd == "translate":
+                    if cmd_translate == True:
+                        notice(sender, ''+prefix+'translate: Translates a message from one language to another.')
+                        notice(sender, ''+prefix+'translate: Syntax: '+prefix+'translate <language from> <language to> <message>')
+                        notice(sender, ''+prefix+'translate: Example: '+prefix+'translate en es How are you?')
+                    else:
+                        notice(sender, ''+prefix+'translate is currently disabled.')
                 elif cmd == "quit":
                     notice(sender, ''+prefix+'quit: Makes the bot quit.')
                 elif cmd == "nick":
@@ -353,6 +360,8 @@ while 1:                                                                        
                         cmds.append(prefix+'lastfm')
                     if cmd_github == True:
                         cmds.append(prefix+'github')
+                    if cmd_translate == True:
+                        cmds.append(prefix+'translate')
                     cmds.append(prefix+'rights')
                     if hostmask in owner or sender in owner:
                         cmds.append(prefix+'join')
@@ -985,6 +994,12 @@ while 1:                                                                        
                         else:
                             cmd_github = True
                             privmsg(sendto, prefix+'github is now enabled.')
+                    elif text.find(':'+prefix+'enable translate') != -1:
+                        if cmd_translate == True:
+                            privmsg(sendto, prefix+'translate is already enabled.')
+                        else:
+                            cmd_translate = True
+                            privmsg(sendto, prefix+'translate is now enabled.')
                     else:
                         notice(sender, 'Insufficent parameters.')
                         pass
@@ -1053,6 +1068,12 @@ while 1:                                                                        
                         else:
                             cmd_github = False
                             privmsg(sendto, prefix+'github is now disabled.')
+                    elif text.find(':'+prefix+'disable translate') != -1:
+                        if cmd_translate == False:
+                            privmsg(sendto, prefix+'translate is already disabled.')
+                        else:
+                            cmd_translate = False
+                            privmsg(sendto, prefix+'translate is now disabled.')                            
                     else:
                         notice(sender, 'Insufficent parameters.')
                         pass
