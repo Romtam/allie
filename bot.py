@@ -740,7 +740,7 @@ while 1:                                                                        
                     if hostmask in owner or sender in owner or hostmask in admins or sender in admins:
                         t = text.split(':'+prefix+'promote ignored ')
                         usr = t[1].strip()
-                        if re.match("^[A-Za-z0-9_\-\\\[\]\{\}\^\`\|]*$", usr):
+                        if re.match("^[A-Za-z0-9_\-\\\[\]\{\}\^\`\|/]*$", usr):
                             if usr == botnick:
                                 privmsg(sendto, 'Cannot ignore self.')
                             elif usr in owner:
@@ -751,13 +751,15 @@ while 1:                                                                        
                                 else:
                                     ignored.append(str(usr))
                                     privmsg(sendto, str(usr)+' added to global ignorelist.')
+                        else:
+                            notice(sender, 'Invalid nickname.')
                     else:
                         notice(sender, 'You are not authorised to perform this command.')
                 elif text.find(':'+prefix+'promote admin') != -1:
                     if hostmask in owner or sender in owner:
                         t = text.split(':'+prefix+'promote admin ')
                         usr = t[1].strip()
-                        if re.match("^[A-Za-z0-9_\-\\\[\]\{\}\^\`\|]*$", usr):
+                        if re.match("^[A-Za-z0-9_\-\\\[\]\{\}\^\`\|/]*$", usr):
                             if usr == botnick:
                                 privmsg(sendto, 'Cannot add self to adminlist.')
                             else:
@@ -766,6 +768,8 @@ while 1:                                                                        
                                 else:
                                     admins.append(str(usr))
                                     privmsg(sendto, str(usr)+' added to global adminlist.')
+                        else:
+                            notice(sender, 'Invalid nickname.')
                     else:
                         notice(sender, 'You are not authorised to perform this command.')
             except Exception:
@@ -780,7 +784,7 @@ while 1:                                                                        
                     if hostmask in owner or sender in owner or hostmask in admins or sender in admins:
                         t = text.split(':'+prefix+'demote ignored ')
                         usr = t[1].strip()
-                        if re.match("^[A-Za-z0-9_\-\\\[\]\{\}\^\`\|]*$", usr):
+                        if re.match("^[A-Za-z0-9_\-\\\[\]\{\}\^\`\|/]*$", usr):
                             if usr == botnick:
                                 privmsg(sendto, 'Cannot unignore self.')
                             else:
@@ -789,13 +793,15 @@ while 1:                                                                        
                                     privmsg(sendto, str(usr)+' removed from global ignorelist.')
                                 else:
                                     privmsg(sendto, str(usr)+' not on global ignorelist.')
+                        else:
+                            notice(sender, 'Invalid nickname.')
                     else:
                         notice(sender, 'You are not authorised to perform this command.')
                 elif text.find(':'+prefix+'demote admin') != -1:
                     if hostmask in owner or sender in owner or hostmask in admins or sender in admins:
                         t = text.split(':'+prefix+'demote admin ')
                         usr = t[1].strip()
-                        if re.match("^[A-Za-z0-9_\-\\\[\]\{\}\^\`\|]*$", usr):
+                        if re.match("^[A-Za-z0-9_\-\\\[\]\{\}\^\`\|/]*$", usr):
                             if usr == botnick:
                                 privmsg(sendto, 'Cannot remove self from adminlist.')
                             else:
@@ -804,6 +810,8 @@ while 1:                                                                        
                                     privmsg(sendto, str(usr)+' removed from global adminlist.')
                                 else:
                                     privmsg(sendto, str(usr)+' not on global adminlist.')
+                        else:
+                            notice(sender, 'Invalid nickname.')
                     else:
                         notice(sender, 'You are not authorised to perform this command.')
             except Exception:
