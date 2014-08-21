@@ -195,126 +195,126 @@ while 1:                                                                        
                 t = text.split(':'+prefix+'help')
                 cmd = t[1].strip()
                 if cmd == "help":
-                    privmsg(sender, prefix+'help: Help for help...really?')
+                    notice(sender, ''+prefix+'help: Help for help...really?')
                 elif cmd == "stupid":
                     if cmd_stupid == True:
-                        privmsg(sender, prefix+'stupid: Produces a 5 word "stupid" sentence on random from a list of defined entries.')
+                        notice(sender, ''+prefix+'stupid: Produces a 5 word "stupid" sentence on random from a list of defined entries.')
                     else:
-                        pass
+                        notice(sender, ''+prefix+'stupid is currently disabled.')
                 elif cmd == "yt":
                     if cmd_yt == True:
-                        privmsg(sender, prefix+'yt: Produces information on a YouTube video.')
-                        privmsg(sender, prefix+'yt: Syntax: '+prefix+'yt <ID>')
-                        privmsg(sender, prefix+'yt: Example: '+prefix+'yt FaMTedT6P0I')
-                        privmsg(sender, prefix+'yt: Alternatively you can post a simple YouTube link.')
+                        notice(sender, ''+prefix+'yt: Produces information on a YouTube video.')
+                        notice(sender, ''+prefix+'yt: Syntax: '+prefix+'yt <ID>')
+                        notice(sender, ''+prefix+'yt: Example: '+prefix+'yt FaMTedT6P0I')
+                        notice(sender, ''+prefix+'yt: Alternatively you can post a simple YouTube link.')
                     else:
-                        pass
+                        notice(sender, ''+prefix+'yt is currently disabled.')
                 elif cmd == "say":
                     if cmd_say == True:
-                        privmsg(sender, prefix+'say: Says a specified line.')
-                        privmsg(sender, prefix+'say: Syntax: '+prefix+'say <line>')
-                        privmsg(sender, prefix+'say: Example: '+prefix+'say Hello.')
+                        notice(sender, ''+prefix+'say: Says a specified line.')
+                        notice(sender, ''+prefix+'say: Syntax: '+prefix+'say <line>')
+                        notice(sender, ''+prefix+'say: Example: '+prefix+'say Hello.')
                     else:
-                        pass
+                        notice(sender, ''+prefix+'say is currently disabled.')
                 elif cmd == "action":
                     if cmd_action == True:
-                        privmsg(sender, prefix+'action: Does an action.')
-                        privmsg(sender, prefix+'action: Syntax: '+prefix+'action <line>')
-                        privmsg(sender, prefix+'action: Example: '+prefix+'action eats everyone.')
+                        notice(sender, ''+prefix+'action: Does an action.')
+                        notice(sender, ''+prefix+'action: Syntax: '+prefix+'action <line>')
+                        notice(sender, ''+prefix+'action: Example: '+prefix+'action eats everyone.')
                     else:
-                        pass
+                        notice(sender, ''+prefix+'action is currently disabled.')
                 elif cmd == "pwn":
                     if cmd_pwn == True:
-                        privmsg(sender, prefix+'pwn: Pwns someone.')
-                        privmsg(sender, prefix+'pwn: Syntax: '+prefix+'pwn <string>')
-                        privmsg(sender, prefix+'pwn: Example: '+prefix+'pwn Everyone')
+                        notice(sender, ''+prefix+'pwn: Pwns someone.')
+                        notice(sender, ''+prefix+'pwn: Syntax: '+prefix+'pwn <string>')
+                        notice(sender, ''+prefix+'pwn: Example: '+prefix+'pwn Everyone')
                     else:
-                        pass
+                        notice(sender, ''+prefix+'pwn is currently disabled.')
                 elif cmd == "weather":
                     if cmd_pwn == True:
-                        privmsg(sender, prefix+'weather: Shows the weather of a location.')
-                        privmsg(sender, prefix+'weather: Syntax: '+prefix+'weather <location>')
-                        privmsg(sender, prefix+'weather: Example: '+prefix+'weather New York')
+                        notice(sender, ''+prefix+'weather: Shows the weather of a location.')
+                        notice(sender, ''+prefix+'weather: Syntax: '+prefix+'weather <location>')
+                        notice(sender, ''+prefix+'weather: Example: '+prefix+'weather New York')
                     else:
-                        pass
+                        notice(sender, ''+prefix+'weather is currently disabled.')
                 elif cmd == "coin":
                     if cmd_coin == True:
-                        privmsg(sender, prefix+'coin: Flips a coin.')
+                        notice(sender, ''+prefix+'coin: Flips a coin.')
                     else:
-                        pass
+                        notice(sender, ''+prefix+'coin is currently disabled.')
                 elif cmd == "github":
                     if cmd_github == True:
-                        privmsg(sender, prefix+'github: Shows information of a GitHub user.')
-                        privmsg(sender, prefix+'github: Syntax: '+prefix+'github <username>')
-                        privmsg(sender, prefix+'github: Example: '+prefix+'github MyGitHub')
+                        notice(sender, ''+prefix+'github: Shows information of a GitHub user.')
+                        notice(sender, ''+prefix+'github: Syntax: '+prefix+'github <username>')
+                        notice(sender, ''+prefix+'github: Example: '+prefix+'github MyGitHub')
                     else:
-                        pass
-                elif cmd == "quit":
-                    privmsg(sender, prefix+'quit: Makes the bot quit.')
-                elif cmd == "nick":
-                    privmsg(sender, prefix+'nick: Changes the bots nick.')
-                    privmsg(sender, prefix+'nick: Syntax: '+prefix+'nick <name>')
-                    privmsg(sender, prefix+'nick: Example: '+prefix+'nick allie')
-                elif cmd == "join":
-                    privmsg(sender, prefix+'join: Joins a channel.')
-                    privmsg(sender, prefix+'join: Syntax: '+prefix+'join <channel>')
-                    privmsg(sender, prefix+'join: Example: '+prefix+'join ##allie')
-                elif cmd == "part":
-                    privmsg(sender, prefix+'part: Parts a channel.')
-                    privmsg(sender, prefix+'part: Syntax: '+prefix+'part <channel>')
-                    privmsg(sender, prefix+'part: Example: '+prefix+'part ##allie')
-                elif cmd == "raw":
-                    privmsg(sender, prefix+'raw: Sends a raw message.')
-                    privmsg(sender, prefix+'raw: Syntax: '+prefix+'raw <string>')
-                    privmsg(sender, prefix+'raw: Example: '+prefix+'raw PRIVMSG ##allie :I am cool!')
-                elif cmd == "eval":
-                    privmsg(sender, prefix+'eval: Executes a raw Python string.')
-                    privmsg(sender, prefix+'eval: Syntax: '+prefix+'eval <Python string>')
-                    privmsg(sender, prefix+'eval: Example: '+prefix+'eval print "hi"')
-                elif cmd == "add_admin":
-                    privmsg(sender, prefix+'promote: Promotes a person to a specified right list.')
-                    privmsg(sender, prefix+'promote: Syntax: '+prefix+'promote <right> <name>')
-                    privmsg(sender, prefix+'promote: Example: '+prefix+'promote admin allie')
-                elif cmd == "remove_admin":
-                    privmsg(sender, prefix+'demote: Demotes a person from a specified right list.')
-                    privmsg(sender, prefix+'demote: Syntax: '+prefix+'demote <right> <name>')
-                    privmsg(sender, prefix+'demote: Example: '+prefix+'demote admin allie-hator')
-                elif cmd == "rights":
-                    privmsg(sender, prefix+'rights: Displays the specified right list. Available rights: owner, admin, ignored.')
-                    privmsg(sender, prefix+'rights: Syntax: '+prefix+'rights <right>')
-                    privmsg(sender, prefix+'rights: Example: '+prefix+'rights owner')
-                elif cmd == "topic":
-                    privmsg(sender, prefix+'topic: Modifies the topic.')
-                    privmsg(sender, prefix+'topic: Syntax: '+prefix+'topic <command>')
-                    privmsg(sender, prefix+'topic: Commands: '+prefix+'topic append <string> - appends to the topic')
-                    privmsg(sender, prefix+'topic:           '+prefix+'topic prepend <string> - prepends to the topic')
-                    privmsg(sender, prefix+'topic:           '+prefix+'topic change <string> - changes the topic')
-                    privmsg(sender, prefix+'topic:           '+prefix+'topic lock <on or off> - locks/unlocks the topic')
-                    privmsg(sender, prefix+'topic:           '+prefix+'topic del - deletes the topic')
-                    privmsg(sender, prefix+'topic:           '+prefix+'topic reset - resets the topic')
-                    privmsg(sender, prefix+'topic: Examples: '+prefix+'topic append Hi.')
-                    privmsg(sender, prefix+'topic:           '+prefix+'topic prepend Hi.')
-                    privmsg(sender, prefix+'topic:           '+prefix+'topic change Hi.')
-                    privmsg(sender, prefix+'topic:           '+prefix+'topic lock on')
-                    privmsg(sender, prefix+'topic:           '+prefix+'topic del')
-                    privmsg(sender, prefix+'topic:           '+prefix+'topic reset')
-                elif cmd == "enable":
-                    privmsg(sender, prefix+'enable: Enables a command.')
-                    privmsg(sender, prefix+'enable: Syntax: '+prefix+'enable <command>')
-                    privmsg(sender, prefix+'enable: Example: '+prefix+'enable stupid')
-                elif cmd == "disable":
-                    privmsg(sender, prefix+'disable: Disables a command.')
-                    privmsg(sender, prefix+'disable: Syntax: '+prefix+'disable <command>')
-                    privmsg(sender, prefix+'disable: Example: '+prefix+'disable stupid')
+                        notice(sender, ''+prefix+'github is currently disabled.')
                 elif cmd == "lastfm":
                     if cmd_lastfm == True:
-                        privmsg(sender, prefix+'lastfm: Shows the recent track of a Last.fm user.')
-                        privmsg(sender, prefix+'lastfm: Syntax: '+prefix+'lastfm <username>')
-                        privmsg(sender, prefix+'lastfm: Example: '+prefix+'lastfm MyLastFm')
+                        notice(sender, ''+prefix+'lastfm: Shows the recent track of a Last.fm user.')
+                        notice(sender, ''+prefix+'lastfm: Syntax: '+prefix+'lastfm <username>')
+                        notice(sender, ''+prefix+'lastfm: Example: '+prefix+'lastfm MyLastFm')
                     else:
-                        pass
+                        notice(sender, ''+prefix+'lastfm is currently disabled.')
+                elif cmd == "quit":
+                    notice(sender, ''+prefix+'quit: Makes the bot quit.')
+                elif cmd == "nick":
+                    notice(sender, ''+prefix+'nick: Changes the bots nick.')
+                    notice(sender, ''+prefix+'nick: Syntax: '+prefix+'nick <name>')
+                    notice(sender, ''+prefix+'nick: Example: '+prefix+'nick allie')
+                elif cmd == "join":
+                    notice(sender, ''+prefix+'join: Joins a channel.')
+                    notice(sender, ''+prefix+'join: Syntax: '+prefix+'join <channel>')
+                    notice(sender, ''+prefix+'join: Example: '+prefix+'join ##allie')
+                elif cmd == "part":
+                    notice(sender, ''+prefix+'part: Parts a channel.')
+                    notice(sender, ''+prefix+'part: Syntax: '+prefix+'part <channel>')
+                    notice(sender, ''+prefix+'part: Example: '+prefix+'part ##allie')
+                elif cmd == "raw":
+                    notice(sender, ''+prefix+'raw: Sends a raw message.')
+                    notice(sender, ''+prefix+'raw: Syntax: '+prefix+'raw <string>')
+                    notice(sender, ''+prefix+'raw: Example: '+prefix+'raw PRIVMSG ##allie :I am cool!')
+                elif cmd == "eval":
+                    notice(sender, ''+prefix+'eval: Executes a raw Python string.')
+                    notice(sender, ''+prefix+'eval: Syntax: '+prefix+'eval <Python string>')
+                    notice(sender, ''+prefix+'eval: Example: '+prefix+'eval print "hi"')
+                elif cmd == "promote":
+                    notice(sender, ''+prefix+'promote: Promotes a person to a specified right list. Available rights: admin, ignored.')
+                    notice(sender, ''+prefix+'promote: Syntax: '+prefix+'promote <right> <name>')
+                    notice(sender, ''+prefix+'promote: Example: '+prefix+'promote admin allie')
+                elif cmd == "demote":
+                    notice(sender, ''+prefix+'demote: Demotes a person from a specified right list. Available rights: admin, ignored.')
+                    notice(sender, ''+prefix+'demote: Syntax: '+prefix+'demote <right> <name>')
+                    notice(sender, ''+prefix+'demote: Example: '+prefix+'demote admin allie-hator')
+                elif cmd == "rights":
+                    notice(sender, ''+prefix+'rights: Displays the specified right list. Available rights: owner, admin, ignored.')
+                    notice(sender, ''+prefix+'rights: Syntax: '+prefix+'rights <right>')
+                    notice(sender, ''+prefix+'rights: Example: '+prefix+'rights owner')
+                elif cmd == "topic":
+                    notice(sender, ''+prefix+'topic: Modifies the topic.')
+                    notice(sender, ''+prefix+'topic: Syntax: '+prefix+'topic <command>')
+                    notice(sender, ''+prefix+'topic: Commands: '+prefix+'topic append <string> - appends to the topic')
+                    notice(sender, ''+prefix+'topic:           '+prefix+'topic prepend <string> - prepends to the topic')
+                    notice(sender, ''+prefix+'topic:           '+prefix+'topic change <string> - changes the topic')
+                    notice(sender, ''+prefix+'topic:           '+prefix+'topic lock <on or off> - locks/unlocks the topic')
+                    notice(sender, ''+prefix+'topic:           '+prefix+'topic del - deletes the topic')
+                    notice(sender, ''+prefix+'topic:           '+prefix+'topic reset - resets the topic')
+                    notice(sender, ''+prefix+'topic: Examples: '+prefix+'topic append Hi.')
+                    notice(sender, ''+prefix+'topic:           '+prefix+'topic prepend Hi.')
+                    notice(sender, ''+prefix+'topic:           '+prefix+'topic change Hi.')
+                    notice(sender, ''+prefix+'topic:           '+prefix+'topic lock on')
+                    notice(sender, ''+prefix+'topic:           '+prefix+'topic del')
+                    notice(sender, ''+prefix+'topic:           '+prefix+'topic reset')
+                elif cmd == "enable":
+                    notice(sender, ''+prefix+'enable: Enables a command.')
+                    notice(sender, ''+prefix+'enable: Syntax: '+prefix+'enable <command>')
+                    notice(sender, ''+prefix+'enable: Example: '+prefix+'enable stupid')
+                elif cmd == "disable":
+                    notice(sender, ''+prefix+'disable: Disables a command.')
+                    notice(sender, ''+prefix+'disable: Syntax: '+prefix+'disable <command>')
+                    notice(sender, ''+prefix+'disable: Example: '+prefix+'disable stupid')
                 else:
-                    privmsg(sender, 'Commands available to you:')
+                    notice(sender, 'Commands available to you:')
                     cmds = []
                     cmds.append(prefix+'help')
                     if cmd_say == True:
@@ -351,10 +351,10 @@ while 1:                                                                        
                         cmds.append(prefix+'topic')
                         cmds.append(prefix+'enable')
                         cmds.append(prefix+'disable')
-                    privmsg(sender, ', '.join(cmds))
-                    privmsg(sender, 'For help on a specific command say '+prefix+'help [command]')
+                    notice(sender, ', '.join(cmds))
+                    notice(sender, 'For help on a specific command say '+prefix+'help [command]')
                     if not text.find('PRIVMSG ' +botnick+ ' :') != -1:
-                        reply(sendto, 'The help message should show up in your query.')
+                        reply(sendto, 'The help message should show as a notice, if not, check your query.')
 
 ##Base commands
     if text.find(':'+prefix+'say') != -1:
