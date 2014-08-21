@@ -135,7 +135,7 @@ else:
             channels = raw_input(">")
         ##write values
         config = open('config.json', 'w')
-        config.write(json.dumps({"server":server,"botnick":botnick,"password":password,"owner":owner,"admins":admins,"prefix":prefix,"channels":channels,"ignored":"","invitejoin":"false"}))
+        config.write(json.dumps({"server":server,"botnick":botnick,"password":password,"owner":owner,"admins":admins,"prefix":prefix,"channels":channels,"ignored":""}))
         config.close()
         restart_program()
     else:
