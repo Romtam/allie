@@ -35,8 +35,7 @@ def done():
     return irc.send("PRIVMSG "+sendto+" :"+sender+": Done.\r\n")
 
 if os.path.isfile("config.json"):
-    config = open('config.json', 'r')
-    conf = json.load(config)
+    conf = json.load(open('config.json'))
     server = conf['server']
     server = server.encode('utf8')
     botnick = conf['botnick']
