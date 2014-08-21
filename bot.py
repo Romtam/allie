@@ -43,11 +43,13 @@ def translate(to_translate, to_langage="auto", langage="auto"):
 	hello you alright?'''
 	agents = {'User-Agent':"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30)"}
 	before_trans = 'class="t0">'
-	link = "http://translate.google.com/m?hl=%s&sl=%s&ie=UTF-8&q=%s" % (to_langage, langage, to_translate.replace(" ", "+"))
+	link = "http://translate.google.com/m?hl=%s&sl=%s&q=%s" % (to_langage, langage, to_translate.replace(" ", "+"))
 	request = urllib2.Request(link, headers=agents)
 	page = urllib2.urlopen(request).read()
 	result = page[page.find(before_trans)+len(before_trans):]
-	result = result.split("<")[0]
+	result = result.split("<")
+	result = result[0].strip()
+	result = result.encode('utf8')
 	return result
 
 if os.path.isfile("config.json"):
@@ -390,7 +392,7 @@ while 1:                                                                        
                 try:
                     t = text.split(':'+prefix+'say ')
                     msg = t[1].strip()
-                    privmsg(sendto, str(msg).encode('utf8'))
+                    privmsg(sendto, str(msg))
                 except Exception, e:
                     print "Error", e
                     pass
@@ -403,7 +405,7 @@ while 1:                                                                        
                 try:
                     t = text.split(':'+prefix+'action ')
                     action = t[1].strip()
-                    privmsg(sendto, '\x01ACTION '+str(action).encode('utf8')+'\x01')
+                    privmsg(sendto, '\x01ACTION '+str(action)+'\x01')
                 except Exception, e:
                     print "Error", e
                     pass
@@ -673,7 +675,7 @@ while 1:                                                                        
                     langfrom = t[4].strip()
                     langto = t[5].strip()
                     msg = t[6].strip()
-                    msg.encode('utf8')
+#                    msg.encode('utf8')
                     reply(sendto, translate(str(msg), str(langto), str(langfrom)))
                 except Exception, e:
                     reply(sendto, 'There is something wrong with your command. Try again.')
