@@ -225,6 +225,13 @@ while 1:                                                                        
                 irc.send("JOIN "+str(invited)+"\n")
             else:
                 pass
+        elif invitejoin.lower() == "owner":
+            if sender in owner or hostmask in owner:
+                invited = text.split(botnick+" :")
+                invited = invited[1]
+                irc.send("JOIN "+str(invited)+"\n")
+            else:
+                pass
                 
 
 ##Help
