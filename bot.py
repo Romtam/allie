@@ -184,7 +184,7 @@ while 1:                                                                        
 
 ##Help
     if text.find(':'+prefix+'help') != -1:
-        if sender in ignored:
+        if sender in ignored or hostmask in ignored:
             pass
         else:
                 t = text.split(':'+prefix+'help')
@@ -355,7 +355,7 @@ while 1:                                                                        
 ##Base commands
     if text.find(':'+prefix+'say') != -1:
         if cmd_say == True:
-            if sender in ignored:
+            if sender in ignored or hostmask in ignored:
                 pass
             else:
                 try:
@@ -367,7 +367,7 @@ while 1:                                                                        
 
     if text.find(':'+prefix+'action') != -1:
         if cmd_action == True:
-            if sender in ignored:
+            if sender in ignored or hostmask in ignored:
                 pass
             else:
                 try:
@@ -380,7 +380,7 @@ while 1:                                                                        
 	
     if text.find(':'+prefix+'stupid') != -1:
         if cmd_stupid == True:
-            if sender in ignored:
+            if sender in ignored or hostmask in ignored:
                 pass
             else:
                 w1 = ["Justin Timberlake", "Angela Merkel", "Vladimir Putin", "Ke$ha", "Justin Bieber", "Rebecca Black", "Violetta", "I", "You", "He", "She", "They", "We", "The girls", "The boys", "Students", "Teachers", "The teacher"]
@@ -394,7 +394,7 @@ while 1:                                                                        
             
     if text.find(':'+prefix+'yt') != -1:
         if cmd_yt == True:
-            if sender in ignored:
+            if sender in ignored or hostmask in ignored:
                 pass
             else:
                 try:
@@ -425,7 +425,7 @@ while 1:                                                                        
 
     if text.find("v=") != -1:
         if cmd_yt == True:
-            if sender in ignored:
+            if sender in ignored or hostmask in ignored:
                 pass
             else:
                 print text.find("v=")
@@ -461,7 +461,7 @@ while 1:                                                                        
 
     if text.find(':'+prefix+'pwn') != -1:
         if cmd_pwn == True:
-            if sender in ignored:
+            if sender in ignored or hostmask in ignored:
                 pass
             else:
                 try:
@@ -489,7 +489,7 @@ while 1:                                                                        
             pass
 
     if text.find(':'+prefix+'rights') != -1:
-        if sender in ignored:
+        if sender in ignored or hostmask in ignored:
             pass
         else:
             try:
@@ -519,7 +519,7 @@ while 1:                                                                        
 
     if text.find(':'+prefix+'weather') != -1:
         if cmd_weather == True:
-            if sender in ignored:
+            if sender in ignored or hostmask in ignored:
                 pass
             else:
                 try:
@@ -556,7 +556,7 @@ while 1:                                                                        
 
     if text.find(':'+prefix+'coin') != -1:
         if cmd_coin == True:
-            if sender in ignored:
+            if sender in ignored or hostmask in ignored:
                 pass
             else:
                 lands = ["heads", "tails"]
@@ -568,7 +568,7 @@ while 1:                                                                        
 
     if text.find(':'+prefix+'lastfm') != -1:
         if cmd_lastfm == True:
-            if sender in ignored:
+            if sender in ignored or hostmask in ignored:
                 pass
             else:
                 try:
@@ -594,7 +594,7 @@ while 1:                                                                        
 
     if text.find(':'+prefix+'github') != -1:
         if cmd_github == True:
-            if sender in ignored:
+            if sender in ignored or hostmask in ignored:
                 pass
             else:
                 try:
@@ -631,7 +631,7 @@ while 1:                                                                        
                     
 ##Admin commands
     if text.find(':'+prefix+'quit') != -1:
-        if sender in ignored:
+        if sender in ignored or hostmask in ignored:
             pass
         else:
             if hostmask in owner or sender in owner:
@@ -643,7 +643,7 @@ while 1:                                                                        
                 notice(sender, 'You are not authorised to perform this command.')
             
     if text.find(':'+prefix+'nick') != -1:
-        if sender in ignored:
+        if sender in ignored or hostmask in ignored:
             pass
         else:
             try:
@@ -659,7 +659,7 @@ while 1:                                                                        
                 pass
             
     if text.find(':'+prefix+'join') != -1:
-        if sender in ignored:
+        if sender in ignored or hostmask in ignored:
             pass
         else:
             try:
@@ -677,7 +677,7 @@ while 1:                                                                        
                 pass
             
     if text.find(':'+prefix+'part') != -1:
-        if sender in ignored:
+        if sender in ignored or hostmask in ignored:
             pass
         else:
             try:
@@ -695,7 +695,7 @@ while 1:                                                                        
                 pass
 
     if text.find(':'+prefix+'eval') != -1:
-        if sender in ignored:
+        if sender in ignored or hostmask in ignored:
             pass
         else:
             if hostmask in owner or sender in owner:
@@ -710,7 +710,7 @@ while 1:                                                                        
                 notice(sender, 'You are not authorised to perform this command.')
 
     if text.find(':'+prefix+'raw') != -1:
-        if sender in ignored:
+        if sender in ignored or hostmask in ignored:
             pass
         else:
             try:
@@ -728,7 +728,7 @@ while 1:                                                                        
                 pass
 
     if text.find(':'+prefix+'promote') != -1:
-        if sender in ignored:
+        if sender in ignored or hostmask in ignored:
             pass
         else:
             try:
@@ -770,7 +770,7 @@ while 1:                                                                        
                 pass
 
     if text.find(':'+prefix+'demote') != -1:
-        if sender in ignored:
+        if sender in ignored or hostmask in ignored:
             pass
         else:
             try:
@@ -814,7 +814,7 @@ while 1:                                                                        
                 pass
 
     if text.find(':'+prefix+'topic') != -1:
-        if sender in ignored:
+        if sender in ignored or hostmask in ignored:
             pass
         else:
             try:
@@ -883,7 +883,7 @@ while 1:                                                                        
                 pass
 
     if text.find(':'+prefix+'enable') != -1:
-        if sender in ignored:
+        if sender in ignored or hostmask in ignored:
             pass
         else:
             try:
@@ -951,7 +951,7 @@ while 1:                                                                        
                 pass
 
     if text.find(':'+prefix+'disable') != -1:
-        if sender in ignored:
+        if sender in ignored or hostmask in ignored:
             pass
         else:
             try:
