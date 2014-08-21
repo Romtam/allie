@@ -73,6 +73,12 @@ if os.path.isfile("config.json"):
     ignored = conf['ignored']
     ignored = ignored.encode('utf8')
 
+    ##optional
+    try:
+        invitejoin = conf['invitejoin']
+    except Exception:
+        pass
+
     channels = channels.split(" ")
     owner = owner.split(" ")
     if ignored != "":
@@ -129,7 +135,7 @@ else:
             channels = raw_input(">")
         ##write values
         config = open('config.json', 'w')
-        config.write(json.dumps({"server":server,"botnick":botnick,"password":password,"owner":owner,"admins":admins,"prefix":prefix,"channels":channels,"ignored":" "}))
+        config.write(json.dumps({"server":server,"botnick":botnick,"password":password,"owner":owner,"admins":admins,"prefix":prefix,"channels":channels,"ignored":"","invitejoin":"false"}))
         config.close()
         restart_program()
     else:
@@ -204,10 +210,22 @@ while 1:                                                                        
         sendto = sendchannel
 
     if text.find('PING') != -1:
-        irc.send('PONG \r\n')
-        
+        irc.send('PONG \r\n')    
     elif text.find("VERSION") != -1:
         irc.send("NOTICE "+sender+" :\x01VERSION "+botnick+", based on allie - The Python IRC Bot @ https://github.com/Snowstormer/allie / Running on "+platform.system()+" "+platform.release()+"\x01\r\n")
+    elif text.find('INVITE') != -1:
+        if invitejoin.lower() == "true":
+            invited = text.split(botnick+" :")
+            invited = invited[1]
+            irc.send("JOIN "+str(invited)+"\n")
+        elif invitejoin.lower() == "admin":
+            if sender in admins or hostmask in admins or sender in owner or hostmask in owner:
+                invited = text.split(botnick+" :")
+                invited = invited[1]
+                irc.send("JOIN "+str(invited)+"\n")
+            else:
+                pass
+                
 
 ##Help
     if text.find(':'+prefix+'help') != -1:
