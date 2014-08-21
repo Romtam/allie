@@ -12,6 +12,7 @@ import time
 import platform
 import os
 import string
+import HTMLParser
 
 #functions
 
@@ -50,7 +51,8 @@ def translate(to_translate, to_langage="auto", langage="auto"):
 	result = result.split("<")
 	result = result[0].strip()
 	result = result.encode('utf8')
-	return result
+	h = HTMLParser.HTMLParser()
+	return h.unescape(result)
 
 if os.path.isfile("config.json"):
     conf = json.load(open('config.json'))
