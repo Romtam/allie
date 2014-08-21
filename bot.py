@@ -34,6 +34,24 @@ def notice(to, message):
 def done():
     return irc.send("PRIVMSG "+sendto+" :"+sender+": Done.\r\n")
 
+def translate(to_translate, to_langage="auto", langage="auto"):
+	'''Return the translation using google translate
+	you must shortcut the langage you define (French = fr, English = en, Spanish = es, etc...)
+	if you don't define anything it will detect it or use english by default
+	Example:
+	print(translate("salut tu vas bien?", "en"))
+	hello you alright?'''
+	agents = {'User-Agent':"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30)"}
+	before_trans = 'class="t0">'
+	link = "http://translate.google.com/m?hl=%s&sl=%s&q=%s" % (to_langage, langage, to_translate.replace(" ", "+"))
+	request = urllib2.Request(link, headers=agents)
+	page = urllib2.urlopen(request).read()
+	result = page[page.find(before_trans)+len(before_trans):]
+	result = result.split("<")
+	result = result[0].strip()
+	result = result.encode('utf8')
+	return result
+
 if os.path.isfile("config.json"):
     conf = json.load(open('config.json'))
     server = conf['server']
@@ -140,6 +158,8 @@ global cmd_lastfm
 cmd_lastfm = True
 global cmd_github
 cmd_github = True
+global cmd_translate
+cmd_translate = True
 
 #connect
 irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -256,6 +276,13 @@ while 1:                                                                        
                         notice(sender, ''+prefix+'lastfm: Example: '+prefix+'lastfm MyLastFm')
                     else:
                         notice(sender, ''+prefix+'lastfm is currently disabled.')
+                elif cmd == "translate":
+                    if cmd_translate == True:
+                        notice(sender, ''+prefix+'translate: Translates a message from one language to another.')
+                        notice(sender, ''+prefix+'translate: Syntax: '+prefix+'translate <language from> <language to> <message>')
+                        notice(sender, ''+prefix+'translate: Example: '+prefix+'translate en es How are you?')
+                    else:
+                        notice(sender, ''+prefix+'translate is currently disabled.')
                 elif cmd == "quit":
                     notice(sender, ''+prefix+'quit: Makes the bot quit.')
                 elif cmd == "nick":
@@ -335,6 +362,8 @@ while 1:                                                                        
                         cmds.append(prefix+'lastfm')
                     if cmd_github == True:
                         cmds.append(prefix+'github')
+                    if cmd_translate == True:
+                        cmds.append(prefix+'translate')
                     cmds.append(prefix+'rights')
                     if hostmask in owner or sender in owner:
                         cmds.append(prefix+'join')
@@ -343,11 +372,9 @@ while 1:                                                                        
                         cmds.append(prefix+'nick')
                         cmds.append(prefix+'raw')
                         cmds.append(prefix+'eval')
-                        cmds.append(prefix+'promote admin')
                     if hostmask in owner or sender in owner or sender in admins or hostmask in admins:
-                        cmds.append(prefix+'promote ignored')
-                        cmds.append(prefix+'demote admin')
-                        cmds.append(prefix+'demote ignored')
+                        cmds.append(prefix+'promote')
+                        cmds.append(prefix+'demote')
                         cmds.append(prefix+'topic')
                         cmds.append(prefix+'enable')
                         cmds.append(prefix+'disable')
@@ -365,8 +392,9 @@ while 1:                                                                        
                 try:
                     t = text.split(':'+prefix+'say ')
                     msg = t[1].strip()
-                    privmsg(sendto, str(msg).encode('utf8'))
-                except Exception:
+                    privmsg(sendto, str(msg))
+                except Exception, e:
+                    print "Error", e
                     pass
 
     if text.find(':'+prefix+'action') != -1:
@@ -377,9 +405,9 @@ while 1:                                                                        
                 try:
                     t = text.split(':'+prefix+'action ')
                     action = t[1].strip()
-                    privmsg(sendto, '\x01ACTION '+str(action).encode('utf8')+'\x01')
+                    privmsg(sendto, '\x01ACTION '+str(action)+'\x01')
                 except Exception, e:
-                    print e
+                    print "Error", e
                     pass
 	
     if text.find(':'+prefix+'stupid') != -1:
@@ -417,11 +445,11 @@ while 1:                                                                        
                             author = author.encode("utf8")
                             privmsg(sendto, '\"'+str(title)+'\" by '+str(author)+' | '+str(viewcount)+' views | 03'+str(likes)+' likes | 04'+str(dislikes)+' dislikes | 02http://youtu.be/'+str(videoid)+'')
                         except Exception, e:
-                            notice(sender, 'Could not look up video, check your ID.')
-                            print "Error",e
+                            reply(sender, 'Could not look up video, check your ID.')
+                            print "Error", e
                             pass
                     else:
-                        notice(sender, 'Could not look up video, check your ID.')
+                        reply(sender, 'Could not look up video, check your ID.')
                 except Exception:
                     pass
         else:
@@ -455,11 +483,11 @@ while 1:                                                                        
                             author = author.encode("utf8")
                             privmsg(sendto, '\"'+str(title)+'\" by '+str(author)+' | '+str(viewcount)+' views | 03'+str(likes)+' likes | 04'+str(dislikes)+' dislikes | 02http://youtu.be/'+str(videoid)+'')
                         except Exception, e:
-                            notice(sender, 'Could not look up video, check your ID.')
-                            print "Error",e
+                            reply(sender, 'Could not look up video, check your ID.')
+                            print "Error", e
                             pass
                     else:
-                        notice(sender, 'Could not look up video, check your ID.')
+                        reply(sender, 'Could not look up video, check your ID.')
         else:
             pass
 
@@ -518,7 +546,8 @@ while 1:                                                                        
                         privmsg(sendto, 'Global ownerlist is empty.')
                     else:
                         privmsg(sendto, 'Global ownerlist: '+", ".join(owner)+'.')
-            except Exception:
+            except Exception, e:
+                print "Error", e
                 pass
 
     if text.find(':'+prefix+'weather') != -1:
@@ -551,9 +580,10 @@ while 1:                                                                        
                         else:
                             privmsg(sendto, 'The current weather in '+str(name)+', '+str(country)+' is: '+str(cond)+'. Temperature: '+str(temp)+'C. Wind speed: '+str(wind)+' km/h. Cloud coverage: '+str(clouds)+'%.')
                     else:
-                        privmsg(sendto, 'Insufficent parameters.')
-                except Exception:
-                    privmsg(sendto, 'Location not found, try again.')
+                        reply(sendto, 'Insufficent parameters.')
+                except Exception, e:
+                    reply(sendto, 'Could not find your location. Try again.')
+                    print "Error", e
                     pass
         else:
             pass
@@ -590,8 +620,9 @@ while 1:                                                                        
                         privmsg(sendto, ''+str(lstfmusr)+'\'s last played track is \"'+str(recentsong)+'\" by '+str(recentartist)+'.')
                     else:
                         privmsg(sendto, ''+str(lstfmusr)+'\'s last played track is \"'+str(recentsong)+'\" by '+str(recentartist)+', from the album \"'+str(recentalbum)+'\".')
-                except Exception:
-                    privmsg(sendto, 'Could not find Last.fm user '+str(lstfmusr)+'.')
+                except Exception, e:
+                    reply(sendto, 'Could not find Last.fm user '+str(lstfmusr)+'. Try again.')
+                    print "Error", e
                     pass
         else:
             pass
@@ -627,8 +658,28 @@ while 1:                                                                        
                         privmsg(sendto, ""+str(gitname)+"'s favourite coding language seems to be 04"+str(gitlanguage)+" ("+str(gitlanguagecount)+" contributions). They seem to like reporting issues.")
                     else:
                         privmsg(sendto, ""+str(gitname)+"'s favourite coding language seems to be 04"+str(gitlanguage)+" ("+str(gitlanguagecount)+" contributions).")
-                except Exception:
-                    privmsg(sendto, 'Could not find GitHub user '+str(githubusr)+'.')
+                except Exception, e:
+                    reply(sendto, 'Could not find GitHub user '+str(githubusr)+'. Try again.')
+                    print "Error", e
+                    pass
+        else:
+            pass
+
+    if text.find(':'+prefix+'translate') != -1:
+        if cmd_translate == True:
+            if sender in ignored or hostmask in ignored:
+                pass
+            else:
+                try:
+                    t = text.split(" ", 6)
+                    langfrom = t[4].strip()
+                    langto = t[5].strip()
+                    msg = t[6].strip()
+#                    msg.encode('utf8')
+                    reply(sendto, translate(str(msg), str(langto), str(langfrom)))
+                except Exception, e:
+                    reply(sendto, 'There is something wrong with your command. Try again.')
+                    print "Error", e
                     pass
         else:
             pass
@@ -662,7 +713,8 @@ while 1:                                                                        
                         notice(sender, 'Invalid nickname.')
                 else:
                     notice(sender, 'You are not authorised to perform this command.')
-            except Exception:
+            except Exception, e:
+                print "Error", e
                 pass
             
     if text.find(':'+prefix+'join') != -1:
@@ -680,7 +732,8 @@ while 1:                                                                        
                         notice(sender, 'Bad parameters, channel names start with #')
                 else:
                     notice(sender, 'You are not authorised to perform this command.')
-            except Exception:
+            except Exception, e:
+                print "Error", e
                 pass
             
     if text.find(':'+prefix+'part') != -1:
@@ -698,7 +751,8 @@ while 1:                                                                        
                         notice(sender, 'Bad parameters, channel names start with #')
                 else:
                     notice(sender, 'You are not authorised to perform this command.')
-            except Exception:
+            except Exception, e:
+                print "Error", e
                 pass
 
     if text.find(':'+prefix+'eval') != -1:
@@ -711,7 +765,7 @@ while 1:                                                                        
                     evalcmd = t[1].strip()
                     exec(str(evalcmd))
                 except Exception, e:
-                    print e
+                    print "Error", e
                     pass
             else:
                 notice(sender, 'You are not authorised to perform this command.')
@@ -731,7 +785,8 @@ while 1:                                                                        
                         done()
                 else:
                     notice(sender, 'You are not authorised to perform this command.')
-            except Exception:
+            except Exception, e:
+                print "Error", e
                 pass
 
     if text.find(':'+prefix+'promote') != -1:
@@ -775,7 +830,8 @@ while 1:                                                                        
                             notice(sender, 'Invalid nickname.')
                     else:
                         notice(sender, 'You are not authorised to perform this command.')
-            except Exception:
+            except Exception, e:
+                print "Error", e
                 pass
 
     if text.find(':'+prefix+'demote') != -1:
@@ -817,7 +873,8 @@ while 1:                                                                        
                             notice(sender, 'Invalid nickname.')
                     else:
                         notice(sender, 'You are not authorised to perform this command.')
-            except Exception:
+            except Exception, e:
+                print "Error", e
                 pass
 
     if text.find(':'+prefix+'topic') != -1:
@@ -886,7 +943,8 @@ while 1:                                                                        
                         pass
                 else:
                     notice(sender, 'You are not authorised to perform this command.')
-            except Exception:
+            except Exception, e:
+                print "Error", e
                 pass
 
     if text.find(':'+prefix+'enable') != -1:
@@ -949,12 +1007,19 @@ while 1:                                                                        
                         else:
                             cmd_github = True
                             privmsg(sendto, prefix+'github is now enabled.')
+                    elif text.find(':'+prefix+'enable translate') != -1:
+                        if cmd_translate == True:
+                            privmsg(sendto, prefix+'translate is already enabled.')
+                        else:
+                            cmd_translate = True
+                            privmsg(sendto, prefix+'translate is now enabled.')
                     else:
                         notice(sender, 'Insufficent parameters.')
                         pass
                 else:
                     notice(sender, 'You are not authorised to perform this command.')
-            except Exception:
+            except Exception, e:
+                print "Error", e
                 pass
 
     if text.find(':'+prefix+'disable') != -1:
@@ -1017,10 +1082,17 @@ while 1:                                                                        
                         else:
                             cmd_github = False
                             privmsg(sendto, prefix+'github is now disabled.')
+                    elif text.find(':'+prefix+'disable translate') != -1:
+                        if cmd_translate == False:
+                            privmsg(sendto, prefix+'translate is already disabled.')
+                        else:
+                            cmd_translate = False
+                            privmsg(sendto, prefix+'translate is now disabled.')                            
                     else:
                         notice(sender, 'Insufficent parameters.')
                         pass
                 else:
                     notice(sender, 'You are not authorised to perform this command.')
-            except Exception:
+            except Exception, e:
+                print "Error", e
                 pass
