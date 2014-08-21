@@ -370,11 +370,9 @@ while 1:                                                                        
                         cmds.append(prefix+'nick')
                         cmds.append(prefix+'raw')
                         cmds.append(prefix+'eval')
-                        cmds.append(prefix+'promote admin')
                     if hostmask in owner or sender in owner or sender in admins or hostmask in admins:
-                        cmds.append(prefix+'promote ignored')
-                        cmds.append(prefix+'demote admin')
-                        cmds.append(prefix+'demote ignored')
+                        cmds.append(prefix+'promote')
+                        cmds.append(prefix+'demote')
                         cmds.append(prefix+'topic')
                         cmds.append(prefix+'enable')
                         cmds.append(prefix+'disable')
