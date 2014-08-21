@@ -348,8 +348,6 @@ while 1:                                                                        
                         cmds.append(prefix+'promote ignored')
                         cmds.append(prefix+'demote admin')
                         cmds.append(prefix+'demote ignored')
-                        cmds.append(prefix+'ignore')
-                        cmds.append(prefix+'unignore')
                         cmds.append(prefix+'topic')
                         cmds.append(prefix+'enable')
                         cmds.append(prefix+'disable')
