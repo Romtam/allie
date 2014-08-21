@@ -43,7 +43,7 @@ def translate(to_translate, to_langage="auto", langage="auto"):
 	hello you alright?'''
 	agents = {'User-Agent':"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30)"}
 	before_trans = 'class="t0">'
-	link = "http://translate.google.com/m?hl=%s&sl=%s&q=%s" % (to_langage, langage, to_translate.replace(" ", "+"))
+	link = "http://translate.google.com/m?hl=%s&sl=%s&ie=UTF-8&q=%s" % (to_langage, langage, to_translate.replace(" ", "+"))
 	request = urllib2.Request(link, headers=agents)
 	page = urllib2.urlopen(request).read()
 	result = page[page.find(before_trans)+len(before_trans):]
@@ -391,7 +391,8 @@ while 1:                                                                        
                     t = text.split(':'+prefix+'say ')
                     msg = t[1].strip()
                     privmsg(sendto, str(msg).encode('utf8'))
-                except Exception:
+                except Exception, e:
+                    print "Error", e
                     pass
 
     if text.find(':'+prefix+'action') != -1:
@@ -404,7 +405,7 @@ while 1:                                                                        
                     action = t[1].strip()
                     privmsg(sendto, '\x01ACTION '+str(action).encode('utf8')+'\x01')
                 except Exception, e:
-                    print e
+                    print "Error", e
                     pass
 	
     if text.find(':'+prefix+'stupid') != -1:
@@ -443,7 +444,7 @@ while 1:                                                                        
                             privmsg(sendto, '\"'+str(title)+'\" by '+str(author)+' | '+str(viewcount)+' views | 03'+str(likes)+' likes | 04'+str(dislikes)+' dislikes | 02http://youtu.be/'+str(videoid)+'')
                         except Exception, e:
                             reply(sender, 'Could not look up video, check your ID.')
-                            print "Error",e
+                            print "Error", e
                             pass
                     else:
                         reply(sender, 'Could not look up video, check your ID.')
@@ -481,7 +482,7 @@ while 1:                                                                        
                             privmsg(sendto, '\"'+str(title)+'\" by '+str(author)+' | '+str(viewcount)+' views | 03'+str(likes)+' likes | 04'+str(dislikes)+' dislikes | 02http://youtu.be/'+str(videoid)+'')
                         except Exception, e:
                             reply(sender, 'Could not look up video, check your ID.')
-                            print "Error",e
+                            print "Error", e
                             pass
                     else:
                         reply(sender, 'Could not look up video, check your ID.')
@@ -543,7 +544,8 @@ while 1:                                                                        
                         privmsg(sendto, 'Global ownerlist is empty.')
                     else:
                         privmsg(sendto, 'Global ownerlist: '+", ".join(owner)+'.')
-            except Exception:
+            except Exception, e:
+                print "Error", e
                 pass
 
     if text.find(':'+prefix+'weather') != -1:
@@ -577,8 +579,9 @@ while 1:                                                                        
                             privmsg(sendto, 'The current weather in '+str(name)+', '+str(country)+' is: '+str(cond)+'. Temperature: '+str(temp)+'C. Wind speed: '+str(wind)+' km/h. Cloud coverage: '+str(clouds)+'%.')
                     else:
                         reply(sendto, 'Insufficent parameters.')
-                except Exception:
+                except Exception, e:
                     reply(sendto, 'Could not find your location. Try again.')
+                    print "Error", e
                     pass
         else:
             pass
@@ -615,8 +618,9 @@ while 1:                                                                        
                         privmsg(sendto, ''+str(lstfmusr)+'\'s last played track is \"'+str(recentsong)+'\" by '+str(recentartist)+'.')
                     else:
                         privmsg(sendto, ''+str(lstfmusr)+'\'s last played track is \"'+str(recentsong)+'\" by '+str(recentartist)+', from the album \"'+str(recentalbum)+'\".')
-                except Exception:
+                except Exception, e:
                     reply(sendto, 'Could not find Last.fm user '+str(lstfmusr)+'. Try again.')
+                    print "Error", e
                     pass
         else:
             pass
@@ -652,8 +656,9 @@ while 1:                                                                        
                         privmsg(sendto, ""+str(gitname)+"'s favourite coding language seems to be 04"+str(gitlanguage)+" ("+str(gitlanguagecount)+" contributions). They seem to like reporting issues.")
                     else:
                         privmsg(sendto, ""+str(gitname)+"'s favourite coding language seems to be 04"+str(gitlanguage)+" ("+str(gitlanguagecount)+" contributions).")
-                except Exception:
+                except Exception, e:
                     reply(sendto, 'Could not find GitHub user '+str(githubusr)+'. Try again.')
+                    print "Error", e
                     pass
         else:
             pass
@@ -670,8 +675,9 @@ while 1:                                                                        
                     msg = t[6].strip()
                     msg.encode('utf8')
                     reply(sendto, translate(str(msg), str(langto), str(langfrom)))
-                except Exception:
+                except Exception, e:
                     reply(sendto, 'There is something wrong with your command. Try again.')
+                    print "Error", e
                     pass
         else:
             pass
@@ -705,7 +711,8 @@ while 1:                                                                        
                         notice(sender, 'Invalid nickname.')
                 else:
                     notice(sender, 'You are not authorised to perform this command.')
-            except Exception:
+            except Exception, e:
+                print "Error", e
                 pass
             
     if text.find(':'+prefix+'join') != -1:
@@ -723,7 +730,8 @@ while 1:                                                                        
                         notice(sender, 'Bad parameters, channel names start with #')
                 else:
                     notice(sender, 'You are not authorised to perform this command.')
-            except Exception:
+            except Exception, e:
+                print "Error", e
                 pass
             
     if text.find(':'+prefix+'part') != -1:
@@ -741,7 +749,8 @@ while 1:                                                                        
                         notice(sender, 'Bad parameters, channel names start with #')
                 else:
                     notice(sender, 'You are not authorised to perform this command.')
-            except Exception:
+            except Exception, e:
+                print "Error", e
                 pass
 
     if text.find(':'+prefix+'eval') != -1:
@@ -754,7 +763,7 @@ while 1:                                                                        
                     evalcmd = t[1].strip()
                     exec(str(evalcmd))
                 except Exception, e:
-                    print e
+                    print "Error", e
                     pass
             else:
                 notice(sender, 'You are not authorised to perform this command.')
@@ -774,7 +783,8 @@ while 1:                                                                        
                         done()
                 else:
                     notice(sender, 'You are not authorised to perform this command.')
-            except Exception:
+            except Exception, e:
+                print "Error", e
                 pass
 
     if text.find(':'+prefix+'promote') != -1:
@@ -818,7 +828,8 @@ while 1:                                                                        
                             notice(sender, 'Invalid nickname.')
                     else:
                         notice(sender, 'You are not authorised to perform this command.')
-            except Exception:
+            except Exception, e:
+                print "Error", e
                 pass
 
     if text.find(':'+prefix+'demote') != -1:
@@ -860,7 +871,8 @@ while 1:                                                                        
                             notice(sender, 'Invalid nickname.')
                     else:
                         notice(sender, 'You are not authorised to perform this command.')
-            except Exception:
+            except Exception, e:
+                print "Error", e
                 pass
 
     if text.find(':'+prefix+'topic') != -1:
@@ -929,7 +941,8 @@ while 1:                                                                        
                         pass
                 else:
                     notice(sender, 'You are not authorised to perform this command.')
-            except Exception:
+            except Exception, e:
+                print "Error", e
                 pass
 
     if text.find(':'+prefix+'enable') != -1:
@@ -1003,7 +1016,8 @@ while 1:                                                                        
                         pass
                 else:
                     notice(sender, 'You are not authorised to perform this command.')
-            except Exception:
+            except Exception, e:
+                print "Error", e
                 pass
 
     if text.find(':'+prefix+'disable') != -1:
@@ -1077,5 +1091,6 @@ while 1:                                                                        
                         pass
                 else:
                     notice(sender, 'You are not authorised to perform this command.')
-            except Exception:
+            except Exception, e:
+                print "Error", e
                 pass
