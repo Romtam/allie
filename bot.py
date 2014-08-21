@@ -11,12 +11,16 @@ import json
 import time
 import platform
 import os
+import string
 
 #functions
 
 def restart_program():
     python = sys.executable
     os.execl(python, python, * sys.argv)
+
+def id_generator(size=6, chars=string.ascii_uppercase + string.digits + string.ascii_lowercase):
+    return ''.join(random.choice(chars) for _ in range(size))
 
 def privmsg(to, message):
     return irc.send("PRIVMSG "+to+" :"+message+"\r\n")
@@ -330,8 +334,7 @@ while 1:                                                                        
                         cmds.append(prefix+'lastfm')
                     if cmd_github == True:
                         cmds.append(prefix+'github')
-                    cmds.append(prefix+'adminlist')
-                    cmds.append(prefix+'ignorelist')
+                    cmds.append(prefix+'rights')
                     if hostmask in owner or sender in owner:
                         cmds.append(prefix+'join')
                         cmds.append(prefix+'part')
@@ -339,9 +342,11 @@ while 1:                                                                        
                         cmds.append(prefix+'nick')
                         cmds.append(prefix+'raw')
                         cmds.append(prefix+'eval')
-                        cmds.append(prefix+'add_admin')
-                    if sender in admins or hostmask in admins:
-                        cmds.append(prefix+'remove_admin')
+                        cmds.append(prefix+'promote admin')
+                    if hostmask in owner or sender in owner or sender in admins or hostmask in admins:
+                        cmds.append(prefix+'promote ignored')
+                        cmds.append(prefix+'demote admin')
+                        cmds.append(prefix+'demote ignored')
                         cmds.append(prefix+'ignore')
                         cmds.append(prefix+'unignore')
                         cmds.append(prefix+'topic')
@@ -782,8 +787,6 @@ while 1:                                                                        
                             privmsg(sendto, 'Cannot unignore no one.')
                         elif usr == botnick:
                             privmsg(sendto, 'Cannot unignore self.')
-                        elif usr == owner:
-                            privmsg(sendto, 'Cannot unignore owner.')
                         else:
                             if str(usr) in ignored:
                                 ignored.remove(str(usr))
@@ -800,8 +803,6 @@ while 1:                                                                        
                             privmsg(sendto, 'Cannot remove no one.')
                         elif usr == botnick:
                             privmsg(sendto, 'Cannot remove self from adminlist.')
-                        elif usr == owner:
-                            privmsg(sendto, 'Cannot remove owner from adminlist.')
                         else:
                             if str(usr) in admins:
                                 admins.remove(str(usr))
