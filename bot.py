@@ -36,7 +36,7 @@ def done():
 
 if os.path.isfile("config.json"):
     config = open('config.json', 'r')
-    conf = json.load(config.read(config))
+    conf = json.load(config.read())
     server = conf['server']
     server = server.encode('utf8')
     botnick = conf['botnick']
