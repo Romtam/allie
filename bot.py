@@ -34,6 +34,22 @@ def notice(to, message):
 def done():
     return irc.send("PRIVMSG "+sendto+" :"+sender+": Done.\r\n")
 
+def translate(to_translate, to_langage="auto", langage="auto"):
+	'''Return the translation using google translate
+	you must shortcut the langage you define (French = fr, English = en, Spanish = es, etc...)
+	if you don't define anything it will detect it or use english by default
+	Example:
+	print(translate("salut tu vas bien?", "en"))
+	hello you alright?'''
+	agents = {'User-Agent':"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30)"}
+	before_trans = 'class="t0">'
+	link = "http://translate.google.com/m?hl=%s&sl=%s&q=%s" % (to_langage, langage, to_translate.replace(" ", "+"))
+	request = urllib2.Request(link, headers=agents)
+	page = urllib2.urlopen(request).read()
+	result = page[page.find(before_trans)+len(before_trans):]
+	result = result.split("<")[0]
+	return result
+
 if os.path.isfile("config.json"):
     conf = json.load(open('config.json'))
     server = conf['server']
@@ -140,6 +156,8 @@ global cmd_lastfm
 cmd_lastfm = True
 global cmd_github
 cmd_github = True
+global cmd_translate
+cmd_translate = True
 
 #connect
 irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -417,11 +435,11 @@ while 1:                                                                        
                             author = author.encode("utf8")
                             privmsg(sendto, '\"'+str(title)+'\" by '+str(author)+' | '+str(viewcount)+' views | 03'+str(likes)+' likes | 04'+str(dislikes)+' dislikes | 02http://youtu.be/'+str(videoid)+'')
                         except Exception, e:
-                            notice(sender, 'Could not look up video, check your ID.')
+                            reply(sender, 'Could not look up video, check your ID.')
                             print "Error",e
                             pass
                     else:
-                        notice(sender, 'Could not look up video, check your ID.')
+                        reply(sender, 'Could not look up video, check your ID.')
                 except Exception:
                     pass
         else:
@@ -455,11 +473,11 @@ while 1:                                                                        
                             author = author.encode("utf8")
                             privmsg(sendto, '\"'+str(title)+'\" by '+str(author)+' | '+str(viewcount)+' views | 03'+str(likes)+' likes | 04'+str(dislikes)+' dislikes | 02http://youtu.be/'+str(videoid)+'')
                         except Exception, e:
-                            notice(sender, 'Could not look up video, check your ID.')
+                            reply(sender, 'Could not look up video, check your ID.')
                             print "Error",e
                             pass
                     else:
-                        notice(sender, 'Could not look up video, check your ID.')
+                        reply(sender, 'Could not look up video, check your ID.')
         else:
             pass
 
@@ -551,9 +569,9 @@ while 1:                                                                        
                         else:
                             privmsg(sendto, 'The current weather in '+str(name)+', '+str(country)+' is: '+str(cond)+'. Temperature: '+str(temp)+'C. Wind speed: '+str(wind)+' km/h. Cloud coverage: '+str(clouds)+'%.')
                     else:
-                        privmsg(sendto, 'Insufficent parameters.')
+                        reply(sendto, 'Insufficent parameters.')
                 except Exception:
-                    privmsg(sendto, 'Location not found, try again.')
+                    reply(sendto, 'Could not find your location. Try again.')
                     pass
         else:
             pass
@@ -591,7 +609,7 @@ while 1:                                                                        
                     else:
                         privmsg(sendto, ''+str(lstfmusr)+'\'s last played track is \"'+str(recentsong)+'\" by '+str(recentartist)+', from the album \"'+str(recentalbum)+'\".')
                 except Exception:
-                    privmsg(sendto, 'Could not find Last.fm user '+str(lstfmusr)+'.')
+                    reply(sendto, 'Could not find Last.fm user '+str(lstfmusr)+'. Try again.')
                     pass
         else:
             pass
@@ -628,7 +646,25 @@ while 1:                                                                        
                     else:
                         privmsg(sendto, ""+str(gitname)+"'s favourite coding language seems to be 04"+str(gitlanguage)+" ("+str(gitlanguagecount)+" contributions).")
                 except Exception:
-                    privmsg(sendto, 'Could not find GitHub user '+str(githubusr)+'.')
+                    reply(sendto, 'Could not find GitHub user '+str(githubusr)+'. Try again.')
+                    pass
+        else:
+            pass
+
+    if text.find(':'+prefix+'translate') != -1:
+        if cmd_translate == True:
+            if sender in ignored or hostmask in ignored:
+                pass
+            else:
+                try:
+                    t = text.split(" ", 6)
+                    langfrom = t[4].strip()
+                    langto = t[5].strip()
+                    msg = t[6].strip()
+                    msg.encode('utf8')
+                    reply(sendto, translate(str(msg), str(langto), str(langfrom)))
+                except Exception:
+                    reply(sendto, 'There is something wrong with your command. Try again.')
                     pass
         else:
             pass
