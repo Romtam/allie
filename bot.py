@@ -65,53 +65,59 @@ if os.path.isfile("config.json"):
     else:
         admins = []
 else:
-    print "Enter server below:"
-    print "Server example: irc.freenode.net"
-    server = raw_input(">")
-    while len(server) == 0:
-        print "Server cannot be empty!"
+    if os.name == 'nt':
+        print "Enter server below:"
+        print "Server example: irc.freenode.net"
         server = raw_input(">")
-    print "Enter bot nick below:"
-    print "Bot nick example: PyAllie"
-    botnick = raw_input(">")
-    while len(botnick) == 0:
-        print "Bot nick cannot be empty!"
+        while len(server) == 0:
+            print "Server cannot be empty!"
+            server = raw_input(">")
+        print "Enter bot nick below:"
+        print "Bot nick example: PyAllie"
         botnick = raw_input(">")
-    print "Enter NickServ password below:"
-    print "NickServ password example: mypass"
-    print "Leave blank if no password."
-    password = raw_input(">")
-    print "Enter the hostmasks/nicknames of owners below:"
-    print "Owners example: my/hostmask Nick"
-    print "Make sure you separate all names with spaces!"
-    print "If you are unsure about the hostmask, please refer to the setting up guide in the wiki!"
-    owner = raw_input(">")
-    while len(owner) == 0:
-        print "Owners cannot be empty!"
+        while len(botnick) == 0:
+            print "Bot nick cannot be empty!"
+            botnick = raw_input(">")
+        print "Enter NickServ password below:"
+        print "NickServ password example: mypass"
+        print "Leave blank if no password."
+        password = raw_input(">")
+        print "Enter the hostmasks/nicknames of owners below:"
+        print "Owners example: my/hostmask Nick"
+        print "Make sure you separate all names with spaces!"
+        print "If you are unsure about the hostmask, please refer to the setting up guide in the wiki!"
         owner = raw_input(">")
-    print "Enter administrators below:"
-    print "Owners example: my/hostmask Nick"
-    print "Make sure you separate all names with spaces!"
-    print "If you are unsure about the hostmask, please refer to the setting up guide in the wiki!"
-    admins = raw_input(">")
-    print "Enter bot prefix below:"
-    print "Prefix example: !"
-    prefix = raw_input(">")
-    while len(prefix) == 0:
-        print "Prefix cannot be empty!"
+        while len(owner) == 0:
+            print "Owners cannot be empty!"
+            owner = raw_input(">")
+        print "Enter administrators below:"
+        print "Owners example: my/hostmask Nick"
+        print "Make sure you separate all names with spaces!"
+        print "If you are unsure about the hostmask, please refer to the setting up guide in the wiki!"
+        admins = raw_input(">")
+        print "Enter bot prefix below:"
+        print "Prefix example: !"
         prefix = raw_input(">")
-    print "Enter channels to join below:"
-    print "Channels example: ##allie #python"
-    print "Make sure you separate all channels with spaces!"
-    channels = raw_input(">")
-    while len(prefix) == 0:
-        print "You must specify at least 1 channel!"
+        while len(prefix) == 0:
+            print "Prefix cannot be empty!"
+            prefix = raw_input(">")
+        print "Enter channels to join below:"
+        print "Channels example: ##allie #python"
+        print "Make sure you separate all channels with spaces!"
         channels = raw_input(">")
-    ##write values
-    config = open('config.json', 'w')
-    config.write(json.dumps({"server":server,"botnick":botnick,"password":password,"owner":owner,"admins":admins,"prefix":prefix,"channels":channels,"ignored":" "}))
-    config.close()
-    restart_program()
+        while len(prefix) == 0:
+            print "You must specify at least 1 channel!"
+            channels = raw_input(">")
+        ##write values
+        config = open('config.json', 'w')
+        config.write(json.dumps({"server":server,"botnick":botnick,"password":password,"owner":owner,"admins":admins,"prefix":prefix,"channels":channels,"ignored":" "}))
+        config.close()
+        restart_program()
+    else:
+        print "Sadly, the automatic config setup only works on Windows."
+        print "If you're seeing this, then you're most likely running anything other than Windows."
+        print "You must set up the config manually."
+        print "To do this, follow the link: https://github.com/Snowstormer/allie/wiki/Setting-Up#on-other-systems"
 
 """Command config.
 Change "True" to "False" to disable a command. Can also be disabled/enabled later while bot is online.
