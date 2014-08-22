@@ -39,6 +39,7 @@ def translate(to_translate, to_langage="auto", langage="auto"):
 	result = page[page.find(before_trans)+len(before_trans):]
 	result = result.split("<")
 	result = result[0].strip()
+	result = result.decode("utf8", "ignore")
 	result = result.encode('utf8')
 	h = HTMLParser.HTMLParser()
 	return h.unescape(result)
