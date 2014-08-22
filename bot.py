@@ -286,7 +286,7 @@ if os.path.isfile("config.json"):
         cmd_stupid = conf['settings']['commandconfig']['stupid']
         cmd_translate = conf['settings']['commandconfig']['translate']
         cmd_weather = conf['settings']['commandconfig']['weather']
-        cmd_youtube = conf['settings']['commandconfig']['youtube']
+        cmd_yt = conf['settings']['commandconfig']['youtube']
     except Exception:
         print "There seems to be something wrong with your configuration file."
         print "The error seems to be in the /commandconfig/."
