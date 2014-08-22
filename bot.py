@@ -278,33 +278,54 @@ if os.path.isfile("config.json"):
     ##command info
     try:
         cmd_action = conf['settings']['commandconfig']['action']
+    except Exception:
+        cmd_action = "true"
+        pass
+    try:
         cmd_coin = conf['settings']['commandconfig']['coin']
+    except Exception:
+        cmd_coin = "true"
+        pass
+    try:
         cmd_github = conf['settings']['commandconfig']['github']
+    except Exception:
+        cmd_github = "true"
+        pass
+    try:
         cmd_lastfm = conf['settings']['commandconfig']['lastfm']
+    except Exception:
+        cmd_lastfm = "true"
+        pass
+    try:
         cmd_pwn = conf['settings']['commandconfig']['pwn']
+    except Exception:
+        cmd_pwn = "true"
+        pass
+    try:
         cmd_say = conf['settings']['commandconfig']['say']
+    except Exception:
+        cmd_say = "true"
+        pass
+    try:
         cmd_stupid = conf['settings']['commandconfig']['stupid']
+    except Exception:
+        cmd_stupid = "true"
+        pass
+    try:
         cmd_translate = conf['settings']['commandconfig']['translate']
+    except Exception:
+        cmd_translate = "true"
+        pass
+    try:
         cmd_weather = conf['settings']['commandconfig']['weather']
+    except Exception:
+        cmd_weather = "true"
+        pass
+    try:
         cmd_yt = conf['settings']['commandconfig']['youtube']
     except Exception:
-        print "There seems to be something wrong with your configuration file."
-        print "The error seems to be in the /commandconfig/."
-        print "You're most likely best if you delete it and generate a new one."
-        print "Or, update the config manually."
-        print "https://github.com/Snowstormer/allie/wiki/Setting-Up#optional-updatingediting-the-config"
-        print "The program will terminate in..."
-        print "5..."
-        time.sleep(1)
-        print "4..."
-        time.sleep(1)
-        print "3..."
-        time.sleep(1)
-        print "2..."
-        time.sleep(1)
-        print "1..."
-        time.sleep(1)
-        sys.exit(0)
+        cmd_yt = "true"
+        pass
 
     channels = channels.split(" ")
     owner = owner.split(" ")
