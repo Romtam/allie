@@ -1,18 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import socket
-import sys
-import random
-import re
-import urllib
-import urllib2
-import json
-import time
-import platform
-import os
-import string
-import HTMLParser
+import socket, sys, random, re, urllib, urllib2, json, time, platform, os, string, HTMLParser, ssl, pdb
 
 #functions
 
@@ -56,28 +45,266 @@ def translate(to_translate, to_langage="auto", langage="auto"):
 
 if os.path.isfile("config.json"):
     conf = json.load(open('config.json'))
-    server = conf['server']
-    server = server.encode('utf8')
-    botnick = conf['botnick']
-    botnick = botnick.encode('utf8')
-    password = conf['password']
-    password = password.encode('utf8')
-    owner = conf['owner']
-    owner = owner.encode('utf8')
-    admins = conf['admins']
-    admins = admins.encode('utf8')
-    prefix = conf['prefix']
-    prefix = prefix.encode('utf8')
-    channels = conf['channels']
-    channels = channels.encode('utf8')
-    ignored = conf['ignored']
-    ignored = ignored.encode('utf8')
-
-    ##optional
     try:
-        invitejoin = conf['invitejoin']
+        server = conf['server']
+        server = server.encode('utf8')
     except Exception:
-        pass
+        print "There seems to be something wrong with your configuration file."
+        print "The error seems to be on the /server/ line."
+        print "You're most likely best if you delete it and generate a new one."
+        print "Or, update the config manually."
+        print "https://github.com/Snowstormer/allie/wiki/Setting-Up#optional-updatingediting-the-config"
+        print "The program will terminate in..."
+        print "5..."
+        time.sleep(1)
+        print "4..."
+        time.sleep(1)
+        print "3..."
+        time.sleep(1)
+        print "2..."
+        time.sleep(1)
+        print "1..."
+        time.sleep(1)
+        sys.exit(0)
+    try:
+        botnick = conf['botnick']
+        botnick = botnick.encode('utf8')
+    except Exception:
+        print "There seems to be something wrong with your configuration file."
+        print "The error seems to be on the /botnick/ line."
+        print "You're most likely best if you delete it and generate a new one."
+        print "Or, update the config manually."
+        print "https://github.com/Snowstormer/allie/wiki/Setting-Up#optional-updatingediting-the-config"
+        print "The program will terminate in..."
+        print "5..."
+        time.sleep(1)
+        print "4..."
+        time.sleep(1)
+        print "3..."
+        time.sleep(1)
+        print "2..."
+        time.sleep(1)
+        print "1..."
+        time.sleep(1)
+        sys.exit(0)
+    try:
+        password = conf['password']
+        password = password.encode('utf8')
+    except Exception:
+        print "There seems to be something wrong with your configuration file."
+        print "The error seems to be on the /password/ line."
+        print "You're most likely best if you delete it and generate a new one."
+        print "Or, update the config manually."
+        print "https://github.com/Snowstormer/allie/wiki/Setting-Up#optional-updatingediting-the-config"
+        print "The program will terminate in..."
+        print "5..."
+        time.sleep(1)
+        print "4..."
+        time.sleep(1)
+        print "3..."
+        time.sleep(1)
+        print "2..."
+        time.sleep(1)
+        print "1..."
+        time.sleep(1)
+        sys.exit(0)
+    try:
+        owner = conf['owner']
+        owner = owner.encode('utf8')
+    except Exception:
+        print "There seems to be something wrong with your configuration file."
+        print "The error seems to be on the /owner/ line."
+        print "You're most likely best if you delete it and generate a new one."
+        print "Or, update the config manually."
+        print "https://github.com/Snowstormer/allie/wiki/Setting-Up#optional-updatingediting-the-config"
+        print "The program will terminate in..."
+        print "5..."
+        time.sleep(1)
+        print "4..."
+        time.sleep(1)
+        print "3..."
+        time.sleep(1)
+        print "2..."
+        time.sleep(1)
+        print "1..."
+        time.sleep(1)
+        sys.exit(0)
+    try:
+        admins = conf['admins']
+        admins = admins.encode('utf8')
+    except Exception:
+        print "There seems to be something wrong with your configuration file."
+        print "The error seems to be on the /admins/ line."
+        print "You're most likely best if you delete it and generate a new one."
+        print "Or, update the config manually."
+        print "https://github.com/Snowstormer/allie/wiki/Setting-Up#optional-updatingediting-the-config"
+        print "The program will terminate in..."
+        print "5..."
+        time.sleep(1)
+        print "4..."
+        time.sleep(1)
+        print "3..."
+        time.sleep(1)
+        print "2..."
+        time.sleep(1)
+        print "1..."
+        time.sleep(1)
+        sys.exit(0)
+    try:
+        prefix = conf['prefix']
+        prefix = prefix.encode('utf8')
+    except Exception:
+        print "There seems to be something wrong with your configuration file."
+        print "The error seems to be on the /prefix/ line."
+        print "You're most likely best if you delete it and generate a new one."
+        print "Or, update the config manually."
+        print "https://github.com/Snowstormer/allie/wiki/Setting-Up#optional-updatingediting-the-config"
+        print "The program will terminate in..."
+        print "5..."
+        time.sleep(1)
+        print "4..."
+        time.sleep(1)
+        print "3..."
+        time.sleep(1)
+        print "2..."
+        time.sleep(1)
+        print "1..."
+        time.sleep(1)
+        sys.exit(0)
+    try:
+        channels = conf['channels']
+        channels = channels.encode('utf8')
+    except Exception:
+        print "There seems to be something wrong with your configuration file."
+        print "The error seems to be on the /channels/ line."
+        print "You're most likely best if you delete it and generate a new one."
+        print "Or, update the config manually."
+        print "https://github.com/Snowstormer/allie/wiki/Setting-Up#optional-updatingediting-the-config"
+        print "The program will terminate in..."
+        print "5..."
+        time.sleep(1)
+        print "4..."
+        time.sleep(1)
+        print "3..."
+        time.sleep(1)
+        print "2..."
+        time.sleep(1)
+        print "1..."
+        time.sleep(1)
+        sys.exit(0)
+    try:
+        ignored = conf['ignored']
+        ignored = ignored.encode('utf8')
+    except Exception:
+        print "There seems to be something wrong with your configuration file."
+        print "The error seems to be on the /ignored/ line."
+        print "You're most likely best if you delete it and generate a new one."
+        print "Or, update the config manually."
+        print "https://github.com/Snowstormer/allie/wiki/Setting-Up#optional-updatingediting-the-config"
+        print "The program will terminate in..."
+        print "5..."
+        time.sleep(1)
+        print "4..."
+        time.sleep(1)
+        print "3..."
+        time.sleep(1)
+        print "2..."
+        time.sleep(1)
+        print "1..."
+        time.sleep(1)
+        sys.exit(0)
+    try:
+        port = conf['port']
+        port = port.encode('utf8')
+    except Exception:
+        print "There seems to be something wrong with your configuration file."
+        print "The error seems to be on the /port/ line."
+        print "You're most likely best if you delete it and generate a new one."
+        print "Or, update the config manually."
+        print "https://github.com/Snowstormer/allie/wiki/Setting-Up#optional-updatingediting-the-config"
+        print "The program will terminate in..."
+        print "5..."
+        time.sleep(1)
+        print "4..."
+        time.sleep(1)
+        print "3..."
+        time.sleep(1)
+        print "2..."
+        time.sleep(1)
+        print "1..."
+        time.sleep(1)
+        sys.exit(0)
+    try:
+        invitejoin = conf['settings']['invitejoin']
+    except Exception:
+        print "There seems to be something wrong with your configuration file."
+        print "The error seems to be on the /invitejoin/ line."
+        print "You're most likely best if you delete it and generate a new one."
+        print "Or, update the config manually."
+        print "https://github.com/Snowstormer/allie/wiki/Setting-Up#optional-updatingediting-the-config"
+        print "The program will terminate in..."
+        print "5..."
+        time.sleep(1)
+        print "4..."
+        time.sleep(1)
+        print "3..."
+        time.sleep(1)
+        print "2..."
+        time.sleep(1)
+        print "1..."
+        time.sleep(1)
+        sys.exit(0)
+    try:
+        use_ssl = conf['settings']['use_ssl']
+    except Exception:
+        print "There seems to be something wrong with your configuration file."
+        print "The error seems to be on the /use_ssl/ line."
+        print "You're most likely best if you delete it and generate a new one."
+        print "Or, update the config manually."
+        print "https://github.com/Snowstormer/allie/wiki/Setting-Up#optional-updatingediting-the-config"
+        print "The program will terminate in..."
+        print "5..."
+        time.sleep(1)
+        print "4..."
+        time.sleep(1)
+        print "3..."
+        time.sleep(1)
+        print "2..."
+        time.sleep(1)
+        print "1..."
+        time.sleep(1)
+        sys.exit(0)
+
+    ##command info
+    try:
+        cmd_action = conf['settings']['commandconfig']['action']
+        cmd_coin = conf['settings']['commandconfig']['coin']
+        cmd_github = conf['settings']['commandconfig']['github']
+        cmd_lastfm = conf['settings']['commandconfig']['lastfm']
+        cmd_pwn = conf['settings']['commandconfig']['pwn']
+        cmd_say = conf['settings']['commandconfig']['say']
+        cmd_stupid = conf['settings']['commandconfig']['stupid']
+        cmd_translate = conf['settings']['commandconfig']['translate']
+        cmd_weather = conf['settings']['commandconfig']['weather']
+        cmd_youtube = conf['settings']['commandconfig']['youtube']
+    except Exception:
+        print "There seems to be something wrong with your configuration file."
+        print "The error seems to be in the /commandconfig/."
+        print "You're most likely best if you delete it and generate a new one."
+        print "Or, update the config manually."
+        print "https://github.com/Snowstormer/allie/wiki/Setting-Up#optional-updatingediting-the-config"
+        print "The program will terminate in..."
+        print "5..."
+        time.sleep(1)
+        print "4..."
+        time.sleep(1)
+        print "3..."
+        time.sleep(1)
+        print "2..."
+        time.sleep(1)
+        print "1..."
+        time.sleep(1)
+        sys.exit(0)
 
     channels = channels.split(" ")
     owner = owner.split(" ")
@@ -91,12 +318,35 @@ if os.path.isfile("config.json"):
         admins = []
 else:
     if os.name == 'nt':
+        ## server info
+        print "Before we start with setting up the bot, you must define which connection type you want to use."
+        print "There are 2 different connection types - normal and SSL."
+        print "If you are unsure whether your network supports SSL, you should look it up before continuing."
+        print "Or, use a normal connection instead."
+        while True:
+            use_ssl = raw_input("(Y or N) >")
+            if use_ssl.lower() == "y":
+                use_ssl = "true"
+                break
+            elif use_ssl.lower() == "n":
+                use_ssl = "false"
+                break
+            else:
+                print "You have entered an invalid value. Please try again."
         print "Enter server below:"
         print "Server example: irc.freenode.net"
         server = raw_input(">")
         while len(server) == 0:
             print "Server cannot be empty!"
             server = raw_input(">")
+        print "Enter server port below:"
+        print "See your IRC network's website if you are unsure of the port."
+        print "Typical ports include 6667 for normal connections and 6697 for SSL connections."
+        port = raw_input(">")
+        while len(port) == 0:
+            print "Port cannot be empty!"
+            port = raw_input(">")
+        ##bot info
         print "Enter bot nick below:"
         print "Bot nick example: PyAllie"
         botnick = raw_input(">")
@@ -133,51 +383,53 @@ else:
         while len(prefix) == 0:
             print "You must specify at least 1 channel!"
             channels = raw_input(">")
+        ##other shtuff
+        print "There are also additional configuration options, however, you will have to set these manually."
         ##write values
         config = open('config.json', 'w')
-        config.write(json.dumps({"server":server,"botnick":botnick,"password":password,"owner":owner,"admins":admins,"prefix":prefix,"channels":channels,"ignored":""}))
+        config.write(json.dumps({"server":server,"port":port,"botnick":botnick,"password":password,"owner":owner,"admins":admins,"prefix":prefix,"channels":channels,"ignored":"","settings": {"invitejoin": "false","use_ssl":use_ssl,"commandconfig": {"say": "true","stupid": "true","youtube": "true","pwn": "true","weather": "true","coin": "true","action": "true","lastfm": "true","github": "true","translate": "true"}}}, indent=4, sort_keys=True))
         config.close()
-        restart_program()
+        print "The program will terminate now. Reopen it to run the bot."
+        print "The program will terminate in..."
+        print "5..."
+        time.sleep(1)
+        print "4..."
+        time.sleep(1)
+        print "3..."
+        time.sleep(1)
+        print "2..."
+        time.sleep(1)
+        print "1..."
+        time.sleep(1)
+        sys.exit(0)
     else:
         print "Sadly, the automatic config setup only works on Windows."
         print "If you're seeing this, then you're most likely running anything other than Windows."
         print "You must set up the config manually."
         print "To do this, follow the link: https://github.com/Snowstormer/allie/wiki/Setting-Up#on-other-systems"
 
-"""Command config.
-Change "True" to "False" to disable a command. Can also be disabled/enabled later while bot is online.
-"""
-
-global cmd_say
-cmd_say = True
-global cmd_stupid
-cmd_stupid = True
-global cmd_yt
-cmd_yt = True
-global cmd_pwn
-cmd_pwn = True
-global cmd_weather
-cmd_weather = True
-global cmd_coin
-cmd_coin = True
-global cmd_action
-cmd_action = True
-global cmd_lastfm
-cmd_lastfm = True
-global cmd_github
-cmd_github = True
-global cmd_translate
-cmd_translate = True
-
 #connect
-irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-print "Connecting to:", server
-irc.connect((server, 6667))
-irc.send("USER "+ botnick +" "+ botnick +" "+ botnick +" :https://github.com/Snowstormer/allie\n")
-irc.send("NICK "+ botnick +"\n")
-irc.send("PRIVMSG NICKSERV :IDENTIFY "+botnick+" "+password+"\r\n") 
-for channel in channels:
-    irc.send("JOIN "+ channel +"\n")
+if use_ssl.lower() == "true":
+    irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    irc = ssl.wrap_socket(irc)
+    print "Connecting to:", server
+    irc.connect((server, int(port)))
+    irc.send("USER "+ botnick +" "+ botnick +" "+ botnick +" :https://github.com/Snowstormer/allie\n")
+    irc.send("NICK "+ botnick +"\n")
+    if password != "":
+        irc.send("PRIVMSG NICKSERV :IDENTIFY "+botnick+" "+password+"\r\n") 
+    for channel in channels:
+        irc.send("JOIN "+ channel +"\n")
+else:
+    irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    print "Connecting to:", server
+    irc.connect((server, int(port)))
+    irc.send("USER "+ botnick +" "+ botnick +" "+ botnick +" :https://github.com/Snowstormer/allie\n")
+    irc.send("NICK "+ botnick +"\n")
+    if password != "":
+        irc.send("PRIVMSG NICKSERV :IDENTIFY "+botnick+" "+password+"\r\n") 
+    for channel in channels:
+        irc.send("JOIN "+ channel +"\n")
 
 #body
 readbuffer = ''
@@ -244,12 +496,12 @@ while 1:                                                                        
                 if cmd == "help":
                     notice(sender, ''+prefix+'help: Help for help...really?')
                 elif cmd == "stupid":
-                    if cmd_stupid == True:
+                    if cmd_stupid.lower() == "true":
                         notice(sender, ''+prefix+'stupid: Produces a 5 word "stupid" sentence on random from a list of defined entries.')
                     else:
                         notice(sender, ''+prefix+'stupid is currently disabled.')
                 elif cmd == "yt":
-                    if cmd_yt == True:
+                    if cmd_yt.lower() == "true":
                         notice(sender, ''+prefix+'yt: Produces information on a YouTube video.')
                         notice(sender, ''+prefix+'yt: Syntax: '+prefix+'yt <ID>')
                         notice(sender, ''+prefix+'yt: Example: '+prefix+'yt FaMTedT6P0I')
@@ -257,54 +509,54 @@ while 1:                                                                        
                     else:
                         notice(sender, ''+prefix+'yt is currently disabled.')
                 elif cmd == "say":
-                    if cmd_say == True:
+                    if cmd_say.lower() == "true":
                         notice(sender, ''+prefix+'say: Says a specified line.')
                         notice(sender, ''+prefix+'say: Syntax: '+prefix+'say <line>')
                         notice(sender, ''+prefix+'say: Example: '+prefix+'say Hello.')
                     else:
                         notice(sender, ''+prefix+'say is currently disabled.')
                 elif cmd == "action":
-                    if cmd_action == True:
+                    if cmd_action.lower() == "true":
                         notice(sender, ''+prefix+'action: Does an action.')
                         notice(sender, ''+prefix+'action: Syntax: '+prefix+'action <line>')
                         notice(sender, ''+prefix+'action: Example: '+prefix+'action eats everyone.')
                     else:
                         notice(sender, ''+prefix+'action is currently disabled.')
                 elif cmd == "pwn":
-                    if cmd_pwn == True:
+                    if cmd_pwn.lower() == "true":
                         notice(sender, ''+prefix+'pwn: Pwns someone.')
                         notice(sender, ''+prefix+'pwn: Syntax: '+prefix+'pwn <string>')
                         notice(sender, ''+prefix+'pwn: Example: '+prefix+'pwn Everyone')
                     else:
                         notice(sender, ''+prefix+'pwn is currently disabled.')
                 elif cmd == "weather":
-                    if cmd_pwn == True:
+                    if cmd_pwn.lower() == "true":
                         notice(sender, ''+prefix+'weather: Shows the weather of a location.')
                         notice(sender, ''+prefix+'weather: Syntax: '+prefix+'weather <location>')
                         notice(sender, ''+prefix+'weather: Example: '+prefix+'weather New York')
                     else:
                         notice(sender, ''+prefix+'weather is currently disabled.')
                 elif cmd == "coin":
-                    if cmd_coin == True:
+                    if cmd_coin.lower() == "true":
                         notice(sender, ''+prefix+'coin: Flips a coin.')
                     else:
                         notice(sender, ''+prefix+'coin is currently disabled.')
                 elif cmd == "github":
-                    if cmd_github == True:
+                    if cmd_github.lower() == "true":
                         notice(sender, ''+prefix+'github: Shows information of a GitHub user.')
                         notice(sender, ''+prefix+'github: Syntax: '+prefix+'github <username>')
                         notice(sender, ''+prefix+'github: Example: '+prefix+'github MyGitHub')
                     else:
                         notice(sender, ''+prefix+'github is currently disabled.')
                 elif cmd == "lastfm":
-                    if cmd_lastfm == True:
+                    if cmd_lastfm.lower() == "true":
                         notice(sender, ''+prefix+'lastfm: Shows the recent track of a Last.fm user.')
                         notice(sender, ''+prefix+'lastfm: Syntax: '+prefix+'lastfm <username>')
                         notice(sender, ''+prefix+'lastfm: Example: '+prefix+'lastfm MyLastFm')
                     else:
                         notice(sender, ''+prefix+'lastfm is currently disabled.')
                 elif cmd == "translate":
-                    if cmd_translate == True:
+                    if cmd_translate.lower() == "true":
                         notice(sender, ''+prefix+'translate: Translates a message from one language to another.')
                         notice(sender, ''+prefix+'translate: Syntax: '+prefix+'translate <language from> <language to> <message>')
                         notice(sender, ''+prefix+'translate: Example: '+prefix+'translate en es How are you?')
@@ -371,25 +623,25 @@ while 1:                                                                        
                     notice(sender, 'Commands available to you:')
                     cmds = []
                     cmds.append(prefix+'help')
-                    if cmd_say == True:
+                    if cmd_say.lower() == "true":
                         cmds.append(prefix+'say')
-                    if cmd_action == True:
+                    if cmd_action.lower() == "true":
                         cmds.append(prefix+'action')
-                    if cmd_stupid == True:
+                    if cmd_stupid.lower() == "true":
                         cmds.append(prefix+'stupid')
-                    if cmd_yt == True:
+                    if cmd_yt.lower() == "true":
                         cmds.append(prefix+'yt')
-                    if cmd_pwn == True:
+                    if cmd_pwn.lower() == "true":
                         cmds.append(prefix+'pwn')
-                    if cmd_weather == True:
+                    if cmd_weather.lower() == "true":
                         cmds.append(prefix+'weather')
-                    if cmd_coin == True:
+                    if cmd_coin.lower() == "true":
                         cmds.append(prefix+'coin')
-                    if cmd_lastfm == True:
+                    if cmd_lastfm.lower() == "true":
                         cmds.append(prefix+'lastfm')
-                    if cmd_github == True:
+                    if cmd_github.lower() == "true":
                         cmds.append(prefix+'github')
-                    if cmd_translate == True:
+                    if cmd_translate.lower() == "true":
                         cmds.append(prefix+'translate')
                     cmds.append(prefix+'rights')
                     if hostmask in owner or sender in owner:
@@ -412,7 +664,7 @@ while 1:                                                                        
 
 ##Base commands
     if text.find(':'+prefix+'say') != -1:
-        if cmd_say == True:
+        if cmd_say.lower() == "true":
             if sender in ignored or hostmask in ignored:
                 pass
             else:
@@ -425,7 +677,7 @@ while 1:                                                                        
                     pass
 
     if text.find(':'+prefix+'action') != -1:
-        if cmd_action == True:
+        if cmd_action.lower() == "true":
             if sender in ignored or hostmask in ignored:
                 pass
             else:
@@ -438,7 +690,7 @@ while 1:                                                                        
                     pass
 	
     if text.find(':'+prefix+'stupid') != -1:
-        if cmd_stupid == True:
+        if cmd_stupid.lower() == "true":
             if sender in ignored or hostmask in ignored:
                 pass
             else:
@@ -452,7 +704,7 @@ while 1:                                                                        
             pass
             
     if text.find(':'+prefix+'yt') != -1:
-        if cmd_yt == True:
+        if cmd_yt.lower() == "true":
             if sender in ignored or hostmask in ignored:
                 pass
             else:
@@ -483,7 +735,7 @@ while 1:                                                                        
             pass
 
     if text.find("v=") != -1:
-        if cmd_yt == True:
+        if cmd_yt.lower() == "true":
             if sender in ignored or hostmask in ignored:
                 pass
             else:
@@ -519,7 +771,7 @@ while 1:                                                                        
             pass
 
     if text.find(':'+prefix+'pwn') != -1:
-        if cmd_pwn == True:
+        if cmd_pwn.lower() == "true":
             if sender in ignored or hostmask in ignored:
                 pass
             else:
@@ -578,7 +830,7 @@ while 1:                                                                        
                 pass
 
     if text.find(':'+prefix+'weather') != -1:
-        if cmd_weather == True:
+        if cmd_weather.lower() == "true":
             if sender in ignored or hostmask in ignored:
                 pass
             else:
@@ -616,7 +868,7 @@ while 1:                                                                        
             pass
 
     if text.find(':'+prefix+'coin') != -1:
-        if cmd_coin == True:
+        if cmd_coin.lower() == "true":
             if sender in ignored or hostmask in ignored:
                 pass
             else:
@@ -628,7 +880,7 @@ while 1:                                                                        
             pass
 
     if text.find(':'+prefix+'lastfm') != -1:
-        if cmd_lastfm == True:
+        if cmd_lastfm.lower() == "true":
             if sender in ignored or hostmask in ignored:
                 pass
             else:
@@ -655,7 +907,7 @@ while 1:                                                                        
             pass
 
     if text.find(':'+prefix+'github') != -1:
-        if cmd_github == True:
+        if cmd_github.lower() == "true":
             if sender in ignored or hostmask in ignored:
                 pass
             else:
@@ -693,7 +945,7 @@ while 1:                                                                        
             pass
 
     if text.find(':'+prefix+'translate') != -1:
-        if cmd_translate == True:
+        if cmd_translate.lower() == "true":
             if sender in ignored or hostmask in ignored:
                 pass
             else:
@@ -981,64 +1233,64 @@ while 1:                                                                        
             try:
                 if hostmask in admins or sender in admins or hostmask in owner or sender in owner:
                     if text.find(':'+prefix+'enable say') != -1:
-                        if cmd_say == True:
+                        if cmd_say.lower() == "true":
                             privmsg(sendto, prefix+'say is already enabled.')
                         else:
-                            cmd_say = True
+                            cmd_say = "true"
                             privmsg(sendto, prefix+'say is now enabled.')
                     elif text.find(':'+prefix+'enable stupid') != -1:
-                        if cmd_stupid == True:
+                        if cmd_stupid.lower() == "true":
                             privmsg(sendto, prefix+'stupid is already enabled.')
                         else:
-                            cmd_stupid = True
+                            cmd_stupid = "true"
                             privmsg(sendto, prefix+'stupid is now enabled.')
                     elif text.find(':'+prefix+'enable yt') != -1:
-                        if cmd_yt == True:
+                        if cmd_yt.lower() == "true":
                             privmsg(sendto, prefix+'yt/YouTube is already enabled.')
                         else:
-                            cmd_yt = True
+                            cmd_yt = "true"
                             privmsg(sendto, prefix+'yt/YouTube is now enabled.')
                     elif text.find(':'+prefix+'enable pwn') != -1:
-                        if cmd_pwn == True:
+                        if cmd_pwn.lower() == "true":
                             privmsg(sendto, prefix+'pwn is already enabled.')
                         else:
-                            cmd_pwn = True
+                            cmd_pwn = "true"
                             privmsg(sendto, prefix+'pwn is now enabled.')
                     elif text.find(':'+prefix+'enable weather') != -1:
-                        if cmd_weather == True:
+                        if cmd_weather.lower() == "true":
                             privmsg(sendto, prefix+'weather is already enabled.')
                         else:
-                            cmd_weather = True
+                            cmd_weather = "true"
                             privmsg(sendto, prefix+'weather is now enabled.')
                     elif text.find(':'+prefix+'enable coin') != -1:
-                        if cmd_coin == True:
+                        if cmd_coin.lower() == "true":
                             privmsg(sendto, prefix+'coin is already enabled.')
                         else:
-                            cmd_coin = True
+                            cmd_coin = "true"
                             privmsg(sendto, prefix+'coin is now enabled.')
                     elif text.find(':'+prefix+'enable action') != -1:
-                        if cmd_action == True:
+                        if cmd_action.lower() == "true":
                             privmsg(sendto, prefix+'action is already enabled.')
                         else:
-                            cmd_action = True
+                            cmd_action = "true"
                             privmsg(sendto, prefix+'action is now enabled.')
                     elif text.find(':'+prefix+'enable lastfm') != -1:
-                        if cmd_lastfm == True:
+                        if cmd_lastfm.lower() == "true":
                             privmsg(sendto, prefix+'lastfm is already enabled.')
                         else:
-                            cmd_lastfm = True
+                            cmd_lastfm = "true"
                             privmsg(sendto, prefix+'lastfm is now enabled.')
                     elif text.find(':'+prefix+'enable github') != -1:
-                        if cmd_github == True:
+                        if cmd_github.lower() == "true":
                             privmsg(sendto, prefix+'github is already enabled.')
                         else:
-                            cmd_github = True
+                            cmd_github = "true"
                             privmsg(sendto, prefix+'github is now enabled.')
                     elif text.find(':'+prefix+'enable translate') != -1:
-                        if cmd_translate == True:
+                        if cmd_translate.lower() == "true":
                             privmsg(sendto, prefix+'translate is already enabled.')
                         else:
-                            cmd_translate = True
+                            cmd_translate = "true"
                             privmsg(sendto, prefix+'translate is now enabled.')
                     else:
                         notice(sender, 'Insufficent parameters.')
@@ -1056,64 +1308,64 @@ while 1:                                                                        
             try:
                 if hostmask in admins or sender in admins or hostmask in owner or sender in owner:
                     if text.find(':'+prefix+'disable say') != -1:
-                        if cmd_say == False:
+                        if cmd_say.lower() == "false":
                             privmsg(sendto, prefix+'say is already disabled.')
                         else:
-                            cmd_say = False
+                            cmd_say = "false"
                             privmsg(sendto, prefix+'say is now disabled.')
                     elif text.find(':'+prefix+'disable stupid') != -1:
-                        if cmd_stupid == False:
+                        if cmd_stupid.lower() == "false":
                             privmsg(sendto, prefix+'stupid is already disabled.')
                         else:
-                            cmd_stupid = False
+                            cmd_stupid = "false"
                             privmsg(sendto, prefix+'stupid is now disabled.')
                     elif text.find(':'+prefix+'disable yt') != -1:
-                        if cmd_yt == False:
+                        if cmd_yt.lower() == "false":
                             privmsg(sendto, prefix+'yt/YouTube is already disabled.')
                         else:
-                            cmd_yt = False
+                            cmd_yt = "false"
                             privmsg(sendto, prefix+'yt/YouTube is now disabled.')
                     elif text.find(':'+prefix+'disable pwn') != -1:
-                        if cmd_pwn == False:
+                        if cmd_pwn.lower() == "false":
                             privmsg(sendto, prefix+'pwn is already disabled.')
                         else:
-                            cmd_pwn = False
+                            cmd_pwn = "false"
                             privmsg(sendto, prefix+'pwn is now disabled.')
                     elif text.find(':'+prefix+'disable weather') != -1:
-                        if cmd_weather == False:
+                        if cmd_weather.lower() == "false":
                             privmsg(sendto, prefix+'weather is already disabled.')
                         else:
-                            cmd_weather = False
+                            cmd_weather = "false"
                             privmsg(sendto, prefix+'weather is now disabled.')
                     elif text.find(':'+prefix+'disable coin') != -1:
-                        if cmd_coin == False:
+                        if cmd_coin.lower() == "false":
                             privmsg(sendto, prefix+'coin is already disabled.')
                         else:
-                            cmd_coin = False
+                            cmd_coin = "false"
                             privmsg(sendto, prefix+'coin is now disabled.')
                     elif text.find(':'+prefix+'disable action') != -1:
-                        if cmd_action == False:
+                        if cmd_action.lower() == "false":
                             privmsg(sendto, prefix+'action is already disabled.')
                         else:
-                            cmd_action = False
+                            cmd_action = "false"
                             privmsg(sendto, prefix+'action is now disabled.')
                     elif text.find(':'+prefix+'disable lastfm') != -1:
-                        if cmd_lastfm == False:
+                        if cmd_lastfm.lower() == "false":
                             privmsg(sendto, prefix+'lastfm is already disabled.')
                         else:
-                            cmd_lastfm = False
+                            cmd_lastfm = "false"
                             privmsg(sendto, prefix+'lastfm is now disabled.')
                     elif text.find(':'+prefix+'disable github') != -1:
-                        if cmd_github == False:
+                        if cmd_github.lower() == "false":
                             privmsg(sendto, prefix+'github is already disabled.')
                         else:
-                            cmd_github = False
+                            cmd_github = "false"
                             privmsg(sendto, prefix+'github is now disabled.')
                     elif text.find(':'+prefix+'disable translate') != -1:
-                        if cmd_translate == False:
+                        if cmd_translate.lower() == "false":
                             privmsg(sendto, prefix+'translate is already disabled.')
                         else:
-                            cmd_translate = False
+                            cmd_translate = "false"
                             privmsg(sendto, prefix+'translate is now disabled.')                            
                     else:
                         notice(sender, 'Insufficent parameters.')
