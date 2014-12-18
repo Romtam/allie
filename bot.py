@@ -587,7 +587,7 @@ while 1:                                                                        
                 elif cmd == "quit":
                     notice(sender, ''+prefix+'quit: Makes the bot quit.')
                 elif cmd == "nick":
-                    notice(sender, "''+prefix+'nick: Changes the bot's nick.'")
+                    notice(sender, ''+prefix+'nick: Changes the bot\'s nick.')
                     notice(sender, ''+prefix+'nick: Syntax: '+prefix+'nick <name>')
                     notice(sender, ''+prefix+'nick: Example: '+prefix+'nick allie')
                 elif cmd == "join":
