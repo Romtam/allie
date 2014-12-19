@@ -1,4 +1,4 @@
-allie
+allie [![Build Status](https://travis-ci.org/Snowstormer/allie.svg?branch=master)](https://travis-ci.org/Snowstormer/allie)
 =========
 
 allie is an IRC bot written in Python from scratch. Has a variety of commands from as simple as "say" to as complex as "weather". Can manage multiple channels at one time.
