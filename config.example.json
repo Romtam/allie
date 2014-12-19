@@ -1,0 +1,27 @@
+{
+    "admins": ["ExampleAdmin", "admin/example"], 
+    "botnick": "ExampleBot", 
+    "channels": ["#channel1", "#channel2"], 
+    "ignored": ["ExampleIgnored", "ignored/example"], 
+    "owner": ["ExampleOwner", "owner/example"], 
+    "password": "password", 
+    "port": 6667, 
+    "prefix": "!", 
+    "server": "irc.example.com", 
+    "settings": {
+        "commandconfig": {
+            "action": true, 
+            "coin": true, 
+            "github": true, 
+            "lastfm": true, 
+            "pwn": true, 
+            "say": true, 
+            "stupid": true, 
+            "translate": true, 
+            "weather": true, 
+            "youtube": true
+        }, 
+        "invitejoin": false, 
+        "use_ssl": false
+    }
+}
