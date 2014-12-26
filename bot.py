@@ -529,10 +529,10 @@ while 1:
     if text.find(':'+prefix+'coin') != -1:
         if cmd_coin == True:
             if sender not in ignored and hostmask not in ignored:
-                lands = ["heads", "tails"]
+                lands = ["heads", "tails", "its side", str(botnick)]
                 privmsg(sendto, sender+' flips a coin...')
                 time.sleep(1)
-                privmsg(sendto, 'It lands on '+random.choice(lands)+'.')
+                privmsg(sendto, 'It lands on \x02'+random.choice(lands)+'\x02.')
 
     if text.find(':'+prefix+'lastfm ') != -1:
         if cmd_lastfm.lower() == True:
